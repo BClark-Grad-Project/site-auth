@@ -1,4 +1,4 @@
-var UserContact = require('./../models/contact');
+var UserContact = require('./../models/user-contact');
 
 module.exports = function(updateData, cb){
 	var id = updateData.id;

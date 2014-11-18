@@ -5,6 +5,8 @@ var UserDetailSchema = mongo.Schema({
                    ref:   'User'},
     contact:     [{type:  mongo.Schema.Types.ObjectId,
                    ref:   'UserContact'}],
+    first:        {type: String, required: true},
+    last:         {type: String, required: true},
     birth:        {type:   Date},
     gender:       {type:   String},
     joined:		  {type: Date, default: Date.now()}    
@@ -15,6 +17,8 @@ UserDetailSchema.methods.getData = function(){
 		id: 	this._id,
 	    user:	this.user,
 	    contact:this.contact,
+	    first:  this.first,
+	    last:   this.last,
 	    birth:	this.birth,
 	    gender:	this.gender,
 	    joined: this.joined

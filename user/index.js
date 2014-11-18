@@ -1,11 +1,11 @@
 // Index of user
-var Create 	= reqire('./create');
-var Read 	= reqire('./read');
-var Update 	= reqire('./update');
-var Remove 	= reqire('./remove');
-var Model 	= reqire('./model');
-var Get 	= reqire('./post');
-var Post 	= reqire('./get');
+var Create 	= require('./create');
+var Read 	= require('./read');
+var Update 	= require('./update');
+var Remove 	= require('./remove');
+var Model 	= require('./models');
+var Get 	= require('./post');
+var Post 	= require('./get');
 
 module.exports.create 	= Create;
 module.exports.read 	= Read;

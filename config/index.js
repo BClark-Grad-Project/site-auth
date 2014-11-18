@@ -1,8 +1,8 @@
 var mongo = require('mongoose');
 var config = {
-   "host" : "localhost"
-  ,"port" : 27017
-  ,"db"   : "authentication"
+   host : "localhost",
+   port : 27017,
+   db   : "authentication"
 };
 
 var mongoMessage = function(){
@@ -26,6 +26,7 @@ module.exports.db = function(){
 };
 
 module.exports.open = function(){
+	console.log(dbConnection());
 	mongo.connect(dbConnection());	
 	mongoMessage();
 };

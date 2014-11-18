@@ -1,4 +1,4 @@
-var UserDetail = require('./../models/detail');
+var UserDetail = require('./../models/user-detail');
 
 module.exports = function(updateData, cb){
 	var id = updateData.id;
