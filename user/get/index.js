@@ -1,5 +1,5 @@
-var Read = require('./read');
-var Conn = require('./../config');
+var Read = require('./../read');
+var Conn = require('./../../config');
 
 module.exports.profile = function(id, cb){
 	Conn.open();

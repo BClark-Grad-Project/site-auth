@@ -26,8 +26,8 @@ module.exports.db = function(){
 };
 
 module.exports.open = function(){
-	console.log(dbConnection());
-	mongo.connect(dbConnection());	
+	var url = dbConnection();
+	mongo.connect(url);	
 	mongoMessage();
 };
 

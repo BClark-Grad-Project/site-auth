@@ -28,7 +28,7 @@ module.exports.session = function(){
 	});
 };
 
-module.exports.registerUser = function(req, res, next){
+module.exports.registerSession = function(req, res, next){
 	if(!req.session.user){
 		var sess = req.session;
 		sess.user = {type: 'guest', detail:{first: 'Guest', last: 'User'}};
@@ -75,3 +75,19 @@ module.exports.logout = function(sess, cb){
 		return cb(null, 'Session Destroyed');
 	});
 };
+
+
+module.exports.register = function(sess, userObj, cb){
+	Conn.open();
+	User
+		.post
+		.profile(userObj, function(err, user){
+			Conn.close();
+			console.log('register end', user, err);
+			if(err){return cb(err, null);}
+			
+			sess.user = user;
+			return cb(null, user);
+		});
+};
+

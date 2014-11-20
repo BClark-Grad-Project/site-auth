@@ -3,6 +3,7 @@ var bcrypt   = require('bcrypt');
 
 var UserSchema = mongo.Schema({
     email:      {type: String, lowercase: true, required: true, sparse: true, unique:true},
+    name:       {type: String, lowercase: true, required: true, sparse: true, unique:true},
     password:   {type: String, required: true},
     type:       {type: String, required: true},
     active:     {type: String, required: true}
@@ -20,6 +21,7 @@ UserSchema.methods.getData = function(){
 	return {
 		id: 		this._id,
 	    email:      this.email,
+	    name:       this.name,
 	    type:       this.type,
 	    active:     this.active
 	};

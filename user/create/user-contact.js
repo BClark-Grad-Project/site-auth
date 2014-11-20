@@ -27,8 +27,8 @@ module.exports = function(contact, cb){
         if (err){
         	return cb(err, null);
         }
+        return cb(null, contactObj.getData());
     });
-	return cb(null, contactObj.getData());
 };
 
 /*
