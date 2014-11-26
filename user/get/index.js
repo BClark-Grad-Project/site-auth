@@ -3,13 +3,13 @@ var Conn = require('./../../config');
 
 module.exports.profile = function(id, cb){
 	Conn.open();
-	Read.user.byId(id, function(err, userObj){
+	Read.user.byId(id, function(err, user){
 		if(err){
 			Conn.close(); 
 			return cb(err, null);
 		}
 		
-		Read.detail.byUser(user.id, function(err, detail){
+		Read.detail.byUser(id, function(err, detail){
 			if(err){
 				Conn.close(); 
 				return cb(err, null);
@@ -17,7 +17,7 @@ module.exports.profile = function(id, cb){
 			
 			delete detail.user;
 			user.detail = detail;
-			Read.contact.byUser(user.id, function(err, contacts){
+			Read.contact.byUser(id, function(err, contacts){
 				Conn.close();
 				if(err){return cb(err, null);}
 				

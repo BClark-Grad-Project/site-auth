@@ -83,7 +83,6 @@ module.exports.register = function(sess, userObj, cb){
 		.post
 		.profile(userObj, function(err, user){
 			Conn.close();
-			console.log('register end', user, err);
 			if(err){return cb(err, null);}
 			
 			sess.user = user;
