@@ -5,9 +5,9 @@ var UserDetailSchema = mongo.Schema({
                    ref:   'User'},
     contact:     [{type:  mongo.Schema.Types.ObjectId,
                    ref:   'UserContact'}],
-    first:        {type: String, required: true},
-    middle:       {type: String, required: true},  // Preserving ability for a person to add multiple middle names.
-    last:         {type: String, required: true},
+    first:        {type: String},
+    middle:       {type: String},  // Preserving ability for a person to add multiple middle names.
+    last:         {type: String},
     birth:        {type:   Date},
     gender:       {type:   String},
     joined:		  {type: Date, default: Date.now()}    

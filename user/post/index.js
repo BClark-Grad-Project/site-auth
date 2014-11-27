@@ -9,15 +9,16 @@ module.exports.profile = function(userObj, cb){
 			}
 
 			userObj.detail.user = user.id;			
-			if(userObj.contact.type){
-				//for(i in userObj.contact){userObj.contact[i].user = user.id;}
-				userObj.contact.user = user.id;
-				Create.contact(userObj.contact, function(err, contacts){
+			if(userObj.contact){
+				for(i in userObj.contact){userObj.contact[i].user = user.id;}
+				
+				Create.buildContacts(userObj.contact, function(err, contacts){
 					if(err){
 						return cb(err, null);
 					}
-										
-					userObj.detail.contact = contacts;
+					var contactIds = [];
+					for(j in userObj.contact){contactIds.push(contacts[j].id);}
+					userObj.detail.contact = contactIds;
 					Create.detail(userObj.detail, function(err, detail){
 						if(err){return cb(err, null);}
 						

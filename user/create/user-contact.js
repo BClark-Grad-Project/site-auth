@@ -3,24 +3,26 @@ var UserContact = require('./../models/user-contact');
 module.exports = function(contact, cb){
 	if(!contact.type){return cb('Missing Contact Type', null);}
 	if(!contact.user){return cb('Missing Contact User', null);}
-	
+
+    var carrier    = contact.carrier ? contact.carrier : undefined;
     var phone      = contact.phone   ? contact.phone   : undefined;
+    var ext        = contact.ext     ? contact.ext     : undefined;
     var addr       = contact.addr    ? contact.addr    : undefined;
     var addr_2     = contact.addr_2  ? contact.addr_2  : undefined;
     var city       = contact.city    ? contact.city    : undefined;
     var state      = contact.state   ? contact.state   : undefined;
     var zip        = contact.zip     ? contact.zip     : undefined;
-    var country    = contact.country ? contact.country : undefined;
 	var contactObj = new UserContact({
 	    user:     contact.user,
 	    type:     contact.type,
+	    carrier:  carrier,
 	    phone:    phone,
+	    ext:      ext,
 	    addr:     addr,
 	    addr_2:   addr_2,
 	    city:     city,
 	    state:    state,
-	    zip:      zip,
-	    country:  country
+	    zip:      zip
 	});	
 	
 	contactObj.save(function (err) {
