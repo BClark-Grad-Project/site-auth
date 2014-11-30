@@ -76,7 +76,6 @@ module.exports.logout = function(sess, cb){
 	});
 };
 
-
 module.exports.register = function(sess, userObj, cb){
 	Conn.open();
 	User
@@ -90,3 +89,15 @@ module.exports.register = function(sess, userObj, cb){
 		});
 };
 
+module.exports.updateProfile = function(userObj, cb){
+	Conn.open();
+	User
+		.post
+		.editProfile(userObj, function(err, user){
+			Conn.close();
+			if(err){return cb(err, null);}
+			
+			//sess.user = user;
+			return cb(null, user);
+		});
+};

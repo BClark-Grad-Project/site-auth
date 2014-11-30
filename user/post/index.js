@@ -50,22 +50,54 @@ module.exports.profile = function(userObj, cb){
 };
 
 module.exports.editProfile = function(userObj, cb){
-	Conn.open();
 	if(userObj.user){
 		Update.user(userObj.user, function(err, success){
 			if(err){return cb(err, null);}
+			if(userObj.contact){
+				Update.contactList(userObj.contact, function(err, success){
+					if(err){return cb(err, null);}
+					if(userObj.detail){
+						Update.detail(userObj.detail, function(err, success){
+							if(err){return cb(err, null);}
+							return cb(null, success);
+						});
+					} else {
+						return cb(null, success);
+					}
+				});
+			} else if(userObj.detail) {
+				Update.detail(userObj.detail, function(err, success){
+					if(err){return cb(err, null);}
+					return cb(null, success);
+				});
+			} else {
+				return cb(null, success);
+			}
 		});
-	}
-	if(userObj.detail){
-		Update.user(userObj.detail, function(err, success){
+	} else if(userObj.contact){
+		console.log('starting contacts save');
+		Update.contactList(userObj.contact, function(err, success){
+			console.log('finishing contacts',err, success);
 			if(err){return cb(err, null);}
+
+			if(userObj.detail){
+				console.log('starting detail save');
+				Update.detail(userObj.detail, function(err, success){
+					if(err){return cb(err, null);}
+					return cb(null, success);
+				});
+			} else {
+				return cb(null, success);
+			}
 		});
-	}
-	if(userObj.contact){
-		Update.user(userObj.contact, function(err, success){
-			if(err){return cb(err, null);}
-		});
-	}
-	Conn.close();
-	return cb(null, 'Success');
+	} else {
+		if(userObj.detail){
+			Update.detail(userObj.detail, function(err, success){
+				if(err){return cb(err, null);}
+				return cb(null, success);
+			});
+		} else {
+			return cb(null, success);
+		}
+	} 
 };

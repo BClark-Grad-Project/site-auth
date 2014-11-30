@@ -4,8 +4,8 @@ module.exports = function(updateData, cb){
 	var id = updateData.id;
 	delete updateData.id;
 	
-	User.update({_id:id}, updateData, {}, function(err, numberAffected, rawResponse){
+	User.findOneAndUpdate({_id:id}, updateData, {}, function(err, user){
 		if(err){return cb(err, null);}
-		return cb(null, 'Success');
+		return cb(null, user.getData());
 	});
 };
