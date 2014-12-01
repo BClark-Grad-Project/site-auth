@@ -6,6 +6,12 @@ var Grant = require('./grant');
 var fs = require('fs');
 var uuid = require('node-uuid');
 var session = require('express-session');
+var mergeProfile = function(obj1,obj2){
+    var obj3 = {};
+    for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
+    for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
+    return obj3;
+};
 
 module.exports.user  = User;
 module.exports.grant = Grant;
@@ -31,7 +37,7 @@ module.exports.session = function(){
 module.exports.registerSession = function(req, res, next){
 	if(!req.session.user){
 		var sess = req.session;
-		sess.user = {type: 'guest', detail:{first: 'Guest', last: 'User'}};
+		sess.user = {user:{type: 'guest'}, detail:{first: 'Guest', last: 'User'}};
 	}
 	return next();
 };
@@ -45,25 +51,29 @@ module.exports.https = function(){
 }; 
 
 module.exports.login = function(sess, credentials, cb){
+	var profile = {};
 	Conn.open();
 	User
 		.read
 		.user
 		.verify(credentials, function(err, user){
 			if(err){return cb(err, null);}
+			profile.user = user;
+			
 			User
 			.read
 			.detail
 			.byUser(user.id, function(err, detail){
 				Conn.close();
 				if(err){return cb(err, user);}
-				user.detail = detail;
-				sess.user = user;
+				profile.detail = detail;
+				
+				sess.user = profile;
 				// Hold session for one year if (remember) is checked. 
-				if(credentials.remember == 'on'){
+				if(credentials.remember == true){
 					sess.cookie.maxage = 365 * 24 * 60 * 60 * 1000;
 				}
-				cb(null, user);				
+				return cb(null, user);				
 			});
 		});
 };
@@ -89,7 +99,7 @@ module.exports.register = function(sess, userObj, cb){
 		});
 };
 
-module.exports.updateProfile = function(userObj, cb){
+module.exports.updateProfile = function(sess, userObj, cb){
 	Conn.open();
 	User
 		.post
@@ -97,7 +107,7 @@ module.exports.updateProfile = function(userObj, cb){
 			Conn.close();
 			if(err){return cb(err, null);}
 			
-			//sess.user = user;
+			sess.user = mergeProfile(sess.user, user);
 			return cb(null, user);
 		});
 };
