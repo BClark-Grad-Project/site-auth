@@ -20,10 +20,11 @@ UserSchema.methods.validPassword = function(password) {
 UserSchema.methods.getData = function(){
 	return {
 	  id:         this._id,
-	  email:      this.email,
-	  alias:      this.alias,
-	  type:       this.type,
-	  active:     this.active
+	  credentials:{
+  	    email:      this.email,
+	    alias:      this.alias,
+	    type:       this.type,
+	    active:     this.active}
 	};
 };
 

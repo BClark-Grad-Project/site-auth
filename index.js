@@ -43,14 +43,14 @@ module.exports.create = function(userObj, cb){
   });
 };
 
-module.exports.verify = function(credentials, cb){
+module.exports.verify = function(credential, cb){
 	  /**
-	   * <credentials options>
+	   * <credential options>
 	   *  user:       Required
 	   *  password:   Required
 	   */
   db.open();
-  R.verify(credentials, function(err, data){
+  R.verify(credential, function(err, data){
     db.close();
     if(err){return cb(err, null);}
   

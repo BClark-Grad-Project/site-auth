@@ -13,10 +13,10 @@ module.exports.registered = function(req, res, next){
 	R.get({_id:req.session.user.id}, function(err, user){
 		db.close();
 		if(err){res.redirect(backURL);}
-		if(user != undefined){
-			next();
-		}	else {
+		if(!user){
 			res.redirect(backURL);
+		}	else {
+			next();
 		}
 	});	
 };
@@ -27,7 +27,7 @@ module.exports.admin = function(req, res, next){
 	R.get({_id:req.session.user.id}, function(err, user){
 		db.close();
 		if(err){res.redirect(backURL);}
-		if(user != undefined){
+		if(user.credentials.type === 'admin'){
 			next();
 		}	else {
 			res.redirect(backURL);
@@ -41,7 +41,7 @@ module.exports.general = function(req, res, next){
 	R.get({_id:req.session.user.id}, function(err, user){
 		db.close();
 		if(err){res.redirect(backURL);}
-		if(user != undefined){
+		if(user.credentials.type === 'general'){
 			next();
 		}	else {
 			res.redirect(backURL);
