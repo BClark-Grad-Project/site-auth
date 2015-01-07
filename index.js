@@ -1,113 +1,88 @@
-// Index of authentication
-var User = require('./user');
-var Conn = require('./config');
-var Grant = require('./grant');
+// Get the database(db) configuration & functions.
+var db = require('./config');
 
-var fs = require('fs');
-var uuid = require('node-uuid');
-var session = require('express-session');
-var mergeProfile = function(obj1,obj2){
-    var obj3 = {};
-    for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
-    for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
-    return obj3;
+var is = require('./permissions'); 
+
+// C.R.U.D. functions.
+var C = require('./create');
+var R = require('./read');
+var U = require('./update');
+var D = require('./delete');
+
+module.exports.grant = function(type){
+  switch(type){
+	  case 0: 
+		  is.registered;  
+		  break;
+	  case 1: 
+		  is.admin;  
+		  break;
+	  case 2: 
+		  is.general;
+		  break;
+	  default: 
+		  is.registered;	  
+  }  
 };
 
-module.exports.user  = User;
-module.exports.grant = Grant;
-
-module.exports.session = function(){
-	// Session create
-	var hour = 3600000;
-	
-	return session({ 
-		genid: function() {
-			  return uuid.v4();
-		},
-		secret: 'secret key',
-		cookie: { secure:  true,
-				  expires: new Date(Date.now() + hour),
-				  maxAge:  hour 
-		},
-		saveUninitialized: true,
-	    resave: true
-	});
+module.exports.create = function(userObj, cb){
+  /**
+   * <userObj options>
+   *  email:      Required
+   *  alias:      Required
+   *  password:   Required
+   *  type:       Optional
+   *  active:     Optional
+   */
+  db.open();
+  C(userObj, function(err, data){
+    db.close();
+    if(err){return cb(err, null);}
+    
+    return cb(null, data);
+  });
 };
 
-module.exports.registerSession = function(req, res, next){
-	if(!req.session.user){
-		var sess = req.session;
-		sess.user = {user:{type: 'guest'}, detail:{first: 'Guest', last: 'User'}};
-	}
-	return next();
-};
-	
-module.exports.https = function(){
-	return {
-		key: fs.readFileSync('./key.pem'),
-		cert: fs.readFileSync('./certificate.pem'),
-		requestCert: true
-	};
-}; 
-
-module.exports.login = function(sess, credentials, cb){
-	var profile = {};
-	Conn.open();
-	User
-		.read
-		.user
-		.verify(credentials, function(err, user){
-			if(err){return cb(err, null);}
-			profile.user = user;
-			
-			User
-			.read
-			.detail
-			.byUser(user.id, function(err, detail){
-				Conn.close();
-				if(err){return cb(err, user);}
-				profile.detail = detail;
-				
-				sess.user = profile;
-				// Hold session for one year if (remember) is checked. 
-				if(credentials.remember == true){
-					sess.cookie.maxage = 365 * 24 * 60 * 60 * 1000;
-				}
-				return cb(null, user);				
-			});
-		});
+module.exports.verify = function(credentials, cb){
+	  /**
+	   * <credentials options>
+	   *  user:       Required
+	   *  password:   Required
+	   */
+  db.open();
+  R.verify(credentials, function(err, data){
+    db.close();
+    if(err){return cb(err, null);}
+  
+    return cb(null, data);
+  });
 };
 
-module.exports.logout = function(sess, cb){
-	sess.destroy(function(err){
-		if(err){return cb(err, null);}
-		
-		return cb(null, 'Session Destroyed');
-	});
+module.exports.update = function(userObj, cb){
+	  /**
+	   * <userObj options>
+	   *  _id:        Required
+	   *  email:      Optional
+	   *  alias:      Optional
+	   *  password:   Optional
+	   *  type:       Optional
+	   *  active:     Optional
+	   */
+  db.open();
+  U(userObj, function(err, data){
+    db.close();
+    if(err){return cb(err, null);}
+  
+    return cb(null, data);
+  });
 };
 
-module.exports.register = function(sess, userObj, cb){
-	Conn.open();
-	User
-		.post
-		.profile(userObj, function(err, user){
-			Conn.close();
-			if(err){return cb(err, null);}
-			
-			sess.user = user;
-			return cb(null, user);
-		});
-};
-
-module.exports.updateProfile = function(sess, userObj, cb){
-	Conn.open();
-	User
-		.post
-		.editProfile(userObj, function(err, user){
-			Conn.close();
-			if(err){return cb(err, null);}
-			
-			sess.user = mergeProfile(sess.user, user);
-			return cb(null, user);
-		});
+module.exports.remove = function(id, cb){
+  db.open();
+  D(id, function(err, data){
+    db.close();
+    if(err){return cb(err, null);}
+  
+    return cb(null, data);
+  });
 };

@@ -1,17 +1,13 @@
 var mongo = require('mongoose');
-var config = {
-   host : "localhost",
-   port : 27017,
-   db   : "authentication"
-};
+var config = require('./conf');
 
 var mongoMessage = function(){
 	var db = mongo.connection;
 	db.once('open', function () {
-		console.log('connected.');
+		console.info('connected: ' + config.db);
 	});	
 	db.on('error', function(err){
-		console.error.bind(console, 'AUTHENTICATION DBMS CONNECTION ERROR!!!');
+		console.error.bind(console, '!CONNECTION ERROR: ' + config.db);
 		console.error.bind(console, err);
 	});	
 };
@@ -21,10 +17,6 @@ var dbConnection = function(){
 	return url;
 };
 
-module.exports.db = function(){
-	return dbConnection();
-};
-
 module.exports.open = function(){
 	var url = dbConnection();
 	mongo.connect(url);	
@@ -32,5 +24,5 @@ module.exports.open = function(){
 };
 
 module.exports.close = function(){
-	mongo.disconnect();
+	return mongo.disconnect();
 };
