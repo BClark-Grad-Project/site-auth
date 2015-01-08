@@ -25,9 +25,9 @@ module.exports.verify = function(userObj, cb){
 		});	
 };
 
-module.exports.get = function(userObj, cb){
+module.exports.get = function(search, cb){
 	User
-		.findOne(userObj)
+		.findOne(search)
 		.exec(function(err, user){
 			if(err){return cb(err, null);}
 			if(!user){

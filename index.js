@@ -43,6 +43,16 @@ module.exports.create = function(userObj, cb){
   });
 };
 
+module.exports.read = function(search, cb){
+  db.open();
+  R.get(search, function(err, data){
+    db.close();
+    if(err){return cb(err, null);}
+  
+    return cb(null, data);
+  });
+};
+
 module.exports.verify = function(credential, cb){
 	  /**
 	   * <credential options>
