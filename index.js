@@ -57,7 +57,7 @@ module.exports.read = function(search, cb){
 };
 
 module.exports.verify = function(credential, cb){
-	console.log('site-auth', credentials);
+	console.log('site-auth', credential);
 	  /**
 	   * <credential options>
 	   *  user:       Required
