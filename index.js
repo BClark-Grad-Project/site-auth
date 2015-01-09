@@ -10,6 +10,7 @@ var U = require('./update');
 var D = require('./delete');
 
 module.exports.grant = function(type){
+	console.log('site-auth', type);
   switch(type){
 	  case 0: 
 		  is.registered;  
@@ -26,6 +27,7 @@ module.exports.grant = function(type){
 };
 
 module.exports.create = function(userObj, cb){
+	console.log('site-auth', userObj);
   /**
    * <userObj options>
    *  email:      Required
@@ -44,6 +46,7 @@ module.exports.create = function(userObj, cb){
 };
 
 module.exports.read = function(search, cb){
+	console.log('site-auth', search);
   db.open();
   R.get(search, function(err, data){
     db.close();
@@ -54,6 +57,7 @@ module.exports.read = function(search, cb){
 };
 
 module.exports.verify = function(credential, cb){
+	console.log('site-auth', credentials);
 	  /**
 	   * <credential options>
 	   *  user:       Required
@@ -69,6 +73,7 @@ module.exports.verify = function(credential, cb){
 };
 
 module.exports.update = function(userObj, cb){
+	console.log('site-auth', userObj);
 	  /**
 	   * <userObj options>
 	   *  _id:        Required
@@ -88,6 +93,7 @@ module.exports.update = function(userObj, cb){
 };
 
 module.exports.remove = function(id, cb){
+	console.log('site-auth', id);
   db.open();
   D(id, function(err, data){
     db.close();
