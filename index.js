@@ -10,7 +10,7 @@ var U = require('./update');
 var D = require('./delete');
 
 module.exports.grant = function(type){
-	console.log('site-auth', type);
+  console.log('site-auth', type);
   switch(type){
 	  case 0: 
 		  is.registered;  
@@ -27,7 +27,7 @@ module.exports.grant = function(type){
 };
 
 module.exports.create = function(userObj, cb){
-	console.log('site-auth', userObj);
+  console.log('site-auth', userObj);
   /**
    * <userObj options>
    *  email:      Required
@@ -36,9 +36,7 @@ module.exports.create = function(userObj, cb){
    *  type:       Optional
    *  active:     Optional
    */
-  db.open();
   C(userObj, function(err, data){
-    db.close();
     if(err){return cb(err, null);}
     
     return cb(null, data);
@@ -47,9 +45,7 @@ module.exports.create = function(userObj, cb){
 
 module.exports.read = function(search, cb){
 	console.log('site-auth', search);
-  db.open();
   R.get(search, function(err, data){
-    db.close();
     if(err){return cb(err, null);}
   
     return cb(null, data);
@@ -57,7 +53,7 @@ module.exports.read = function(search, cb){
 };
 
 module.exports.verify = function(credential, cb){
-	console.log('site-auth', credential);
+  console.log('site-auth', credential);
 	  /**
 	   * <credential options>
 	   *  user:       Required
@@ -73,17 +69,16 @@ module.exports.verify = function(credential, cb){
 };
 
 module.exports.update = function(userObj, cb){
-	console.log('site-auth', userObj);
-	  /**
-	   * <userObj options>
-	   *  _id:        Required
-	   *  email:      Optional
-	   *  alias:      Optional
-	   *  password:   Optional
-	   *  type:       Optional
-	   *  active:     Optional
-	   */
-  db.open();
+  console.log('site-auth', userObj);
+  /**
+  * <userObj options>
+  *  _id:        Required
+  *  email:      Optional
+  *  alias:      Optional
+  *  password:   Optional
+  *  type:       Optional
+  *  active:     Optional
+  */
   U(userObj, function(err, data){
     db.close();
     if(err){return cb(err, null);}
@@ -93,8 +88,7 @@ module.exports.update = function(userObj, cb){
 };
 
 module.exports.remove = function(id, cb){
-	console.log('site-auth', id);
-  db.open();
+  console.log('site-auth', id);
   D(id, function(err, data){
     db.close();
     if(err){return cb(err, null);}

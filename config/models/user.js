@@ -28,4 +28,4 @@ UserSchema.methods.getData = function(){
 	};
 };
 
-module.exports = mongo.model('User', UserSchema);
+module.exports = UserSchema;
