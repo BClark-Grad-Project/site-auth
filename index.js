@@ -44,7 +44,7 @@ module.exports.create = function(userObj, cb){
 };
 
 module.exports.read = function(search, cb){
-	console.log('site-auth', search);
+  console.log('site-auth', search);
   R.get(search, function(err, data){
     if(err){return cb(err, null);}
   
@@ -59,9 +59,7 @@ module.exports.verify = function(credential, cb){
 	   *  user:       Required
 	   *  password:   Required
 	   */
-  db.open();
   R.verify(credential, function(err, data){
-    db.close();
     if(err){return cb(err, null);}
   
     return cb(null, data);
@@ -80,7 +78,6 @@ module.exports.update = function(userObj, cb){
   *  active:     Optional
   */
   U(userObj, function(err, data){
-    db.close();
     if(err){return cb(err, null);}
   
     return cb(null, data);
@@ -90,7 +87,6 @@ module.exports.update = function(userObj, cb){
 module.exports.remove = function(id, cb){
   console.log('site-auth', id);
   D(id, function(err, data){
-    db.close();
     if(err){return cb(err, null);}
   
     return cb(null, data);
