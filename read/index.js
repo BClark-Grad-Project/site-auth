@@ -1,4 +1,4 @@
-var User  = require('./../models/user');
+var User = require('./../config').user;
 
 module.exports.verify = function(userObj, cb){
 	User

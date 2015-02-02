@@ -1,5 +1,7 @@
 var mongo = require('mongoose');
 var config = require('./conf');
+var User = require('./models/user');
+var conn = {};
 
 var mongoMessage = function(){
 	var db = mongo.connection;
@@ -17,12 +19,12 @@ var dbConnection = function(){
 	return url;
 };
 
-module.exports.open = function(){
-	var url = dbConnection();
-	mongo.connect(url);	
-	mongoMessage();
-};
 
 module.exports.close = function(){
 	return mongo.disconnect();
 };
+
+var url = dbConnection();
+conn = mongo.createConnection(url);	
+mongoMessage();
+module.exports.user = conn.model('User', User);

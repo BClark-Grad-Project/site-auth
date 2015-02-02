@@ -1,4 +1,4 @@
-var User = require('./../models/user');
+var User = require('./../config').user;
 
 module.exports = function(user, cb){
 	var active = user.active ? user.active : true;
