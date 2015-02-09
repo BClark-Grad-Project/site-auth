@@ -29,9 +29,7 @@ module.exports.admin = function(req, res, next){
 			}	else {
 				next();
 			}
-		}	else {
-			next();
-		}
+		}	
 	});
 };
 
@@ -45,8 +43,6 @@ module.exports.general = function(req, res, next){
 			} else {
 				next();
 			}
-		} else {
-			next();
-		}
+		} 
 	});
 };
