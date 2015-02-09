@@ -8,10 +8,8 @@ var R = require('./read');
 var backURL;
 
 module.exports.registered = function(req, res, next){
-	db.open();
 	backURL=req.header('Referer') || '/';
 	R.get({_id:req.session.user.id}, function(err, user){
-		db.close();
 		if(err){res.redirect(backURL);}
 		if(!user){
 			res.redirect(backURL);
@@ -22,10 +20,8 @@ module.exports.registered = function(req, res, next){
 };
 
 module.exports.admin = function(req, res, next){
-	db.open();	
 	backURL=req.header('Referer') || '/';
 	R.get({_id:req.session.user.id}, function(err, user){
-		db.close();
 		if(err){res.redirect(backURL);}
 		if(user.credentials.type === 'admin'){
 			next();
@@ -36,10 +32,8 @@ module.exports.admin = function(req, res, next){
 };
 
 module.exports.general = function(req, res, next){
-	db.open();	
 	backURL=req.header('Referer') || '/';
 	R.get({_id:req.session.user.id}, function(err, user){
-		db.close();
 		if(err){res.redirect(backURL);}
 		if(user.credentials.type === 'general'){
 			next();
