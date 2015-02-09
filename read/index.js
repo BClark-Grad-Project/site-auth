@@ -7,7 +7,7 @@ module.exports.verify = function(userObj, cb){
 			if(err){return cb(err, null);}
 			if(!user){
 				User
-					.findOne({email: userObj.user})
+					.findOne({alias: userObj.user})
 					.exec(function(err, user){
 						if(err) {return cb(err, null);}
 						if(!user) {return cb('Invalid User / Password', null);}
