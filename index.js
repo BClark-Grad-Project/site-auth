@@ -9,21 +9,36 @@ var R = require('./read');
 var U = require('./update');
 var D = require('./delete');
 
-module.exports.grant = function(type){
+var grant = function(type, req, res, next){
   console.log('site-auth', type);
   switch(type){
 	  case 0: 
-		  is.registered;  
+		  console.log('registered check');
+		  is.registered(req, res, next);  
 		  break;
 	  case 1: 
-		  is.admin;  
+		  console.log('admin check');
+		  is.admin(req, res, next);  
 		  break;
 	  case 2: 
-		  is.general;
+		  console.log('general check');
+		  is.general(req, res, next);
 		  break;
 	  default: 
-		  is.registered;	  
+		  is.registered(req, res, next);	  
   }  
+};
+
+module.exports.grantAdmin = function(req, res, next){
+	grant(1, req, res, next);
+};
+
+module.exports.grantUsers = function(req, res, next){
+	grant(2, req, res, next);
+};
+
+module.exports.grantOwner = function(req, res, next){
+	grant(0, req, res, next);
 };
 
 module.exports.create = function(userObj, cb){
