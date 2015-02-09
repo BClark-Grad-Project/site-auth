@@ -23,10 +23,14 @@ module.exports.admin = function(req, res, next){
 	backURL=req.header('Referer') || '/';
 	R.get({_id:req.session.user.id}, function(err, user){
 		if(err){res.redirect(backURL);}
-		if(user.credentials.type === 'admin'){
-			next();
+		if(user){
+			if(user.credentials.type !== 'admin'){
+				res.redirect(backURL);
+			}	else {
+				next();
+			}
 		}	else {
-			res.redirect(backURL);
+			next();
 		}
 	});
 };
@@ -35,10 +39,14 @@ module.exports.general = function(req, res, next){
 	backURL=req.header('Referer') || '/';
 	R.get({_id:req.session.user.id}, function(err, user){
 		if(err){res.redirect(backURL);}
-		if(user.credentials.type === 'general'){
+		if(user){
+			if(user.credentials.type !== 'general'){
+				res.redirect(backURL);
+			} else {
+				next();
+			}
+		} else {
 			next();
-		}	else {
-			res.redirect(backURL);
 		}
 	});
 };
