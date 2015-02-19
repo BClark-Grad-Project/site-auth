@@ -12,7 +12,6 @@ var AuthorizationSchema = mongo.Schema({
 AuthorizationSchema.methods.getData = function(){
 	return {
 	  id:         this._id,
-	  user:		  this.user,
 	  access:	  this.access,
 	  service:	  this.service
 	};

@@ -43,14 +43,6 @@ module.exports.grantOwner = function(req, res, next){
 
 module.exports.create = function(userObj, cb){
   console.log('site-auth', userObj);
-  /**
-   * <userObj options>
-   *  email:      Required
-   *  alias:      Required
-   *  password:   Required
-   *  type:       Optional
-   *  active:     Optional
-   */
   C(userObj, function(err, data){
     if(err){return cb(err, null);}
     
@@ -69,11 +61,6 @@ module.exports.read = function(search, cb){
 
 module.exports.verify = function(credential, cb){
   console.log('site-auth', credential);
-	  /**
-	   * <credential options>
-	   *  user:       Required
-	   *  password:   Required
-	   */
   R.verify(credential, function(err, data){
     if(err){return cb(err, null);}
   
@@ -83,15 +70,6 @@ module.exports.verify = function(credential, cb){
 
 module.exports.update = function(userObj, cb){
   console.log('site-auth', userObj);
-  /**
-  * <userObj options>
-  *  _id:        Required
-  *  email:      Optional
-  *  alias:      Optional
-  *  password:   Optional
-  *  type:       Optional
-  *  active:     Optional
-  */
   U(userObj, function(err, data){
     if(err){return cb(err, null);}
   

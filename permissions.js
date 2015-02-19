@@ -10,11 +10,16 @@ var backURL;
 module.exports.registered = function(req, res, next){
 	backURL=req.header('Referer') || '/';
 	R.get({_id:req.session.user.id}, function(err, user){
-		if(!user){
+		if(user){
+			for(var i in user.authorizations){
+				if(user.authorizations[i].service.code === req.locals.service){
+					if(user.id.toString() === req.session.user.id.toString()){
+						return next();
+					} 
+				}
+			}
 			return false;
-		}	else {
-			return next();
-		}
+		}	
 	});	
 };
 
@@ -22,11 +27,14 @@ module.exports.admin = function(req, res, next){
 	backURL=req.header('Referer') || '/';
 	R.get({_id:req.session.user.id}, function(err, user){
 		if(user){
-			if(user.credentials.type !== 'admin'){
-				return false;
-			}	else {
-				return next();
+			for(var i in user.authorizations){
+				if(user.authorizations[i].service.code === req.locals.service){
+					if(user.authorizations[i].access.type === 'admin'){
+						return next();
+					} 
+				}
 			}
+			return false;
 		}	
 	});
 };
@@ -35,11 +43,14 @@ module.exports.general = function(req, res, next){
 	backURL=req.header('Referer') || '/';
 	R.get({_id:req.session.user.id}, function(err, user){
 		if(user){
-			if(user.credentials.type !== 'general'){
-				return false;
-			} else {
-				return next();
+			for(var i in user.authorizations){
+				if(user.authorizations[i].service.code === req.locals.service){
+					if(user.authorizations[i].access.type === 'general'){
+						return next();
+					} 
+				}
 			}
-		} 
+			return false;
+		}	
 	});
 };
