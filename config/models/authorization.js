@@ -12,9 +12,10 @@ var AuthorizationSchema = mongo.Schema({
 
 AuthorizationSchema.methods.getData = function(){
 	return {
-	  access:	  this.access,
-	  service:	  this.service,
-	  active:	  this.active
+      id:		this._id,
+	  access:	this.access,
+	  service:	this.service,
+	  active:	this.active
 	};
 };
 

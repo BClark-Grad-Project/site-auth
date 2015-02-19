@@ -37,16 +37,44 @@ module.exports.grantOwner = function(req, res, next){
 	return grant(0, req, res, next);
 };
 
-module.exports.create = function(userObj, cb){
-  C(userObj, function(err, data){
+module.exports.create = function(Obj, cb){
+  C(Obj, function(err, user){
     if(err){return cb(err, null);}
     
-    return cb(null, data);
+    if(user){
+    	if(user.credentials){
+    		// When new credentials are created
+    		R({authentication:{user:user.id}},function(err, auths){
+    			if(err){return cb(err, null);}		
+    			
+    			user.authentications = [];
+    			user.authentications = auths;
+        		return cb(null, user);
+    		});
+    	} else if (user.authorization){
+    		// when new access is granted
+    		R({credentials:{_id:user.id}},function(err, credentials){
+    			if(err){return cb(err, null);}
+    			
+    			user.credentials = {};
+    			user.credentials = credentials;
+        		R({authentication:{user:user.id}},function(err, auths){
+        			if(err){return cb(err, null);}		
+
+        			user.authentications = [];
+        			user.authentications = auths;
+            		return cb(null, user);
+        		});
+    		});
+    	} else {
+    		return cb('!Object missing value', null);
+    	}
+    }
   });
 };
 
-module.exports.read = function(search, cb){
-  R.get(search, function(err, data){
+module.exports.read = function(Obj, cb){
+  R(Obj, function(err, data){
     if(err){return cb(err, null);}
   
     return cb(null, data);
@@ -54,23 +82,24 @@ module.exports.read = function(search, cb){
 };
 
 module.exports.verify = function(credential, cb){
-  R.verify(credential, function(err, data){
+  R.user.verify(credential, function(err, data){
     if(err){return cb(err, null);}
   
     return cb(null, data);
   });
 };
 
-module.exports.update = function(userObj, cb){
-  U(userObj, function(err, data){
+module.exports.update = function(Obj, cb){
+  U(Obj, function(err, data){
     if(err){return cb(err, null);}
-  
+    
     return cb(null, data);
   });
 };
 
-module.exports.remove = function(id, cb){
-  D(id, function(err, data){
+module.exports.remove = function(Obj, cb){
+  // Currently I am only going to activate and deactivate account auths.  Profile details are contained in separate package & DBMS.
+  U(Obj, function(err, data){
     if(err){return cb(err, null);}
   
     return cb(null, data);

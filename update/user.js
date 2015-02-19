@@ -1,9 +1,8 @@
 var User = require('./../config').user;
 
-module.exports = function(updateData, cb){
-	var id = updateData.id;
+module.exports = function(search, updateData, cb){
 
-	User.findOneAndUpdate({_id:id}, updateData, {}, function(err, user){
+	User.findOneAndUpdate(search, updateData, {}, function(err, user){
 		if(err){return cb(err, null);}
 		return cb(null, user.getData());
 	});

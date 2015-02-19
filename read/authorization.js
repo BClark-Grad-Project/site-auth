@@ -2,11 +2,17 @@ var Authorization = require('./../config').authorization;
 
 module.exports = function(Obj, cb){
 	Authorization
-		.findOne(Obj)
+		.find(Obj)
+		.populate('service', 'code name')
+		.populate('access', 'type level')
 		.exec(function(err, data){
 			if(err){return cb(err, null);}
-			if(!data){return cb('!No Detail', null);}
+			if(!data){return cb('!Nothing Found', null);}
 
-			return cb(null, data.getData());
+			for(var i in data){
+				delete data[i]._id;
+			}
+			
+			return cb(null, data);
 		});	
 };
