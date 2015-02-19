@@ -1,23 +1,10 @@
-var User = require('./../config').user;
+var User = require('./user');
+var Authorization = require('./authorization');
+var Service = require('./service');
+var Access = require('./access');
 
-module.exports = function(user, cb){
-	var active = user.active ? user.active : true;
-	var type     = user.type   ? user.type   : 'general';	
-	var hasher = new User();
-	var password = hasher.generateHash(user.password);
-	
-	var userObj  = new User({
-	    email:      user.email,
-	    alias:      user.alias,
-	    password:   password,
-	    type:       type,
-	    active:     active
-	});
-	
-	userObj.save(function (err) {
-        if (err){
-        	return cb(err, null);
-        }
-        return cb(null, userObj.getData());
-    });
-};
+module.exports.user = User;
+module.exports.authorization = Authorization;
+module.exports.service = Service;
+module.exports.access = Access;
+

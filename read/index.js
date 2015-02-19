@@ -1,39 +1,10 @@
-var User = require('./../config').user;
+var User = require('./user');
+var Authorization = require('./authorization');
+var Service = require('./service');
+var Access = require('./access');
 
-module.exports.verify = function(userObj, cb){
-	User
-		.findOne({email: userObj.user})
-		.exec(function(err, user){
-			if(err){return cb(err, null);}
-			if(!user){
-				User
-					.findOne({alias: userObj.user})
-					.exec(function(err, user){
-						if(err) {return cb(err, null);}
-						if(!user) {return cb('Invalid User / Password', null);}
-						if(!user.validPassword(userObj.password)){
-							return cb('Invalid User / Password', null);
-						}			
-						return cb(null, user.getData());
-					});
-			} else {
-				if(!user.validPassword(userObj.password)){
-					return cb('Invalid User / Password', null);
-				}			
-				return cb(null, user.getData());
-			}
-		});	
-};
+module.exports.user = User;
+module.exports.authorization = Authorization;
+module.exports.service = Service;
+module.exports.access = Access;
 
-module.exports.get = function(search, cb){
-	User
-		.findOne(search)
-		.exec(function(err, user){
-			if(err){return cb(err, null);}
-			if(!user){
-				return cb('!Not Found',null);
-			} else {
-				return cb(null, user.getData());
-			}
-		});	
-};

@@ -10,18 +10,14 @@ var U = require('./update');
 var D = require('./delete');
 
 var grant = function(type, req, res, next){
-  console.log('site-auth', type);
   switch(type){
 	  case 0: 
-		  console.log('registered check');
 		  return is.registered(req, res, next);  
 		  break;
 	  case 1: 
-		  console.log('admin check');
 		  return is.admin(req, res, next);  
 		  break;
 	  case 2: 
-		  console.log('general check');
 		  return is.general(req, res, next);
 		  break;
 	  default: 
@@ -42,7 +38,6 @@ module.exports.grantOwner = function(req, res, next){
 };
 
 module.exports.create = function(userObj, cb){
-  console.log('site-auth', userObj);
   C(userObj, function(err, data){
     if(err){return cb(err, null);}
     
@@ -51,7 +46,6 @@ module.exports.create = function(userObj, cb){
 };
 
 module.exports.read = function(search, cb){
-  console.log('site-auth', search);
   R.get(search, function(err, data){
     if(err){return cb(err, null);}
   
@@ -60,7 +54,6 @@ module.exports.read = function(search, cb){
 };
 
 module.exports.verify = function(credential, cb){
-  console.log('site-auth', credential);
   R.verify(credential, function(err, data){
     if(err){return cb(err, null);}
   
@@ -69,7 +62,6 @@ module.exports.verify = function(credential, cb){
 };
 
 module.exports.update = function(userObj, cb){
-  console.log('site-auth', userObj);
   U(userObj, function(err, data){
     if(err){return cb(err, null);}
   
@@ -78,7 +70,6 @@ module.exports.update = function(userObj, cb){
 };
 
 module.exports.remove = function(id, cb){
-  console.log('site-auth', id);
   D(id, function(err, data){
     if(err){return cb(err, null);}
   
