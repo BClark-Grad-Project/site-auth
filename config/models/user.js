@@ -5,7 +5,6 @@ var UserSchema = mongo.Schema({
     email:      {type: String, lowercase: true, required: true, sparse: true, unique:true},
     alias:      {type: String, lowercase: true, required: true, sparse: true, unique:true},
     password:   {type: String, required: true},
-    type:       {type: String, required: true},
     active:     {type: String, required: true}
 });
 
@@ -23,7 +22,6 @@ UserSchema.methods.getData = function(){
 	  credentials:{
   	    email:      this.email,
 	    alias:      this.alias,
-	    type:       this.type,
 	    active:     this.active}
 	};
 };
