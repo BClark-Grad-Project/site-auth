@@ -7,13 +7,14 @@ var AuthorizationSchema = mongo.Schema({
 			   ref:  'Access'},
 	service:   {type: mongo.Schema.Types.ObjectId,
 			   ref:  'Service'},
+	active:   {type:String, 'default': true}
 });
 
 AuthorizationSchema.methods.getData = function(){
 	return {
-	  id:         this._id,
 	  access:	  this.access,
-	  service:	  this.service
+	  service:	  this.service,
+	  active:	  this.active
 	};
 };
 
