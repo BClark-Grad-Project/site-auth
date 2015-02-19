@@ -14,31 +14,31 @@ var grant = function(type, req, res, next){
   switch(type){
 	  case 0: 
 		  console.log('registered check');
-		  is.registered(req, res, next);  
+		  return is.registered(req, res, next);  
 		  break;
 	  case 1: 
 		  console.log('admin check');
-		  is.admin(req, res, next);  
+		  return is.admin(req, res, next);  
 		  break;
 	  case 2: 
 		  console.log('general check');
-		  is.general(req, res, next);
+		  return is.general(req, res, next);
 		  break;
 	  default: 
-		  is.registered(req, res, next);	  
+		  return is.registered(req, res, next);	  
   }  
 };
 
 module.exports.grantAdmin = function(req, res, next){
-	grant(1, req, res, next);
+	return grant(1, req, res, next);
 };
 
 module.exports.grantUsers = function(req, res, next){
-	grant(2, req, res, next);
+	return grant(2, req, res, next);
 };
 
 module.exports.grantOwner = function(req, res, next){
-	grant(0, req, res, next);
+	return grant(0, req, res, next);
 };
 
 module.exports.create = function(userObj, cb){
