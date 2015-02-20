@@ -44,7 +44,7 @@ module.exports.create = function(Obj, cb){
 			R({service:{code:Obj.authorization.service}}, function(err, service){
 				if(err){return cb(err, null);}	
 				
-				Obj.authentication.service = service.id;
+				Obj.authorization.service = service.id;
 				R({access:{type: Obj.authorization.access.type, level:Obj.authorization.access.level}}, function(err, access){
 					if(err){return cb(err, null);}	
 					

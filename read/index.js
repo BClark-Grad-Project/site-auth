@@ -13,8 +13,18 @@ module.exports = function(Obj, cb){
 			});
 		} else if(Obj.service){
 			// TODO: No need to complete in this iteration. Focus on feature completion.(Use mongo shell for lookup)
+			Service(Obj.service, function(err, service){
+				if(err){return cb(err, null);}
+				
+				return cb(null, service);
+			});
 		} else if(Obj.access){
 			// TODO: No need to complete in this iteration. Focus on feature completion.(Use mongo shell for lookup)
+			Access(Obj.access, function(err, access){
+				if(err){return cb(err, null);}
+				
+				return cb(null, access);
+			});			
 		} else {
 			// If here it should be in proper format but for safety I extract. 
 			User.get({_id: Obj.id},function(err, user){
