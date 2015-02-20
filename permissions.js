@@ -8,11 +8,10 @@ var R = require('./read');
 var backURL;
 
 module.exports.registered = function(req, res, next){
-	backURL=req.header('Referer') || '/';
 	R.get({_id:req.session.user.id}, function(err, user){
 		if(user){
 			for(var i in user.authorizations){
-				if(user.authorizations[i].service.code === req.locals.service){
+				if(user.authorizations[i].service.code === req.locals.service_code){
 					if(user.id.toString() === req.session.user.id.toString()){
 						return next();
 					} 
@@ -24,11 +23,10 @@ module.exports.registered = function(req, res, next){
 };
 
 module.exports.admin = function(req, res, next){
-	backURL=req.header('Referer') || '/';
 	R.get({_id:req.session.user.id}, function(err, user){
 		if(user){
 			for(var i in user.authorizations){
-				if(user.authorizations[i].service.code === req.locals.service){
+				if(user.authorizations[i].service.code === req.locals.service_code){
 					if(user.authorizations[i].access.type === 'admin'){
 						return next();
 					} 
@@ -40,11 +38,10 @@ module.exports.admin = function(req, res, next){
 };
 
 module.exports.general = function(req, res, next){
-	backURL=req.header('Referer') || '/';
 	R.get({_id:req.session.user.id}, function(err, user){
 		if(user){
 			for(var i in user.authorizations){
-				if(user.authorizations[i].service.code === req.locals.service){
+				if(user.authorizations[i].service.code === req.locals.service_code){
 					if(user.authorizations[i].access.type === 'general'){
 						return next();
 					} 
