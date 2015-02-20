@@ -42,9 +42,7 @@ module.exports.general = function(req, res, next){
 		if(user){
 			for(var i in user.authorizations){
 				if(user.authorizations[i].service.code === req.app.locals.service_code){
-					if(user.authorizations[i].access.type === 'general'){
 						return next();
-					} 
 				}
 			}
 			return false;
