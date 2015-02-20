@@ -3,11 +3,6 @@ var Authorization = require('./authorization');
 var Service = require('./service');
 var Access = require('./access');
 
-module.exports.user = User;
-module.exports.authorization = Authorization;
-module.exports.service = Service;
-module.exports.access = Access;
-
 module.exports = function(Obj, cb){
 	if(Obj){
 		if(Obj.authorization){			
@@ -38,3 +33,8 @@ module.exports = function(Obj, cb){
 		return cb('!No Object', null);
 	}
 };
+
+module.exports.user = User;
+module.exports.authorization = Authorization;
+module.exports.service = Service;
+module.exports.access = Access;
