@@ -7,7 +7,7 @@ var AuthorizationSchema = mongo.Schema({
 			   ref:  'Access'},
 	service:   {type: mongo.Schema.Types.ObjectId,
 			   ref:  'Service'},
-	active:   {type:String, 'default': true}
+	active:   {type:Boolean, 'default': true}
 });
 
 AuthorizationSchema.methods.getData = function(){

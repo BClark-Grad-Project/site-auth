@@ -99,9 +99,16 @@ module.exports.update = function(Obj, cb){
 
 module.exports.remove = function(Obj, cb){
   // Currently I am only going to activate and deactivate account auths.  Profile details are contained in separate package & DBMS.
-  U(Obj, function(err, data){
-    if(err){return cb(err, null);}
-  
-    return cb(null, data);
-  });
+  if(Obj){
+	  if(Obj.id){
+		  Obj.credentials.active = false;
+		  U(Obj, function(err, data){
+		    if(err){return cb(err, null);}
+		  
+		    return cb(null, data);
+		  });
+	  }
+  } else {
+	  return cb('!No object', null);
+  }
 };

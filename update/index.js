@@ -11,14 +11,7 @@ module.exports.access = Access;
 module.exports = function(Obj, cb){
 	if(Obj){
 		var search = {};
-		if(Obj.credentials){
-			search = {_id:Obj.id};
-			User(search, Obj.credentials, function(err, user){
-				if(err){return cb(err, null);}
-				
-				return cb(null, user);
-			});
-		} else if(Obj.authorization){
+		if(Obj.authorization){
 			search = {user:Obj.id, service:Obj.authorization.service};
 			Authentication(search, Obj.authentication, function(err, user){
 				if(err){return cb(err, null);}
@@ -29,7 +22,14 @@ module.exports = function(Obj, cb){
 			// TODO: No need to complete in this iteration. Focus on feature completion.(Do with mongo shell or script for now)
 		} else if(Obj.access){
 			// TODO: No need to complete in this iteration. Focus on feature completion.(Do with mongo shell or script for now)
-		}
+		} else {
+			search = {_id:Obj.id};
+			User(search, Obj.credentials, function(err, user){
+				if(err){return cb(err, null);}
+				
+				return cb(null, user);
+			});
+		} 
 	}  else {
 		return cb('!No Object', null);
 	}
