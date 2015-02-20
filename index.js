@@ -41,7 +41,7 @@ module.exports.create = function(Obj, cb){
 
 	if(Obj){
 		if(Obj.credentials){
-			R({service:Obj.authorization.service}, function(err, service){
+			R({service:{code:Obj.authorization.service}}, function(err, service){
 				if(err){return cb(err, null);}	
 				
 				Obj.authentication.service = service.id;
