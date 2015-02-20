@@ -6,7 +6,7 @@ var Access = require('./access');
 module.exports = function(Obj, cb){
 	if(Obj){
 		if(Obj.authorization){			
-			Authorization({user:user.id}, function(err, auths){
+			Authorization(Obj.authorization, function(err, auths){
 				if(err){return cb(err, null);}
 				
 				return cb(null, auths);
