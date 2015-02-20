@@ -38,39 +38,63 @@ module.exports.grantOwner = function(req, res, next){
 };
 
 module.exports.create = function(Obj, cb){
-  C(Obj, function(err, user){
-    if(err){return cb(err, null);}
-    
-    if(user){
-    	if(user.credentials){
-    		// When new credentials are created
-    		R({authentication:{user:user.id}},function(err, auths){
-    			if(err){return cb(err, null);}		
-    			
-    			user.authentications = [];
-    			user.authentications = auths;
-        		return cb(null, user);
-    		});
-    	} else if (user.authorization){
-    		// when new access is granted
-    		R({credentials:{_id:user.id}},function(err, credentials){
-    			if(err){return cb(err, null);}
-    			
-    			user.credentials = {};
-    			user.credentials = credentials;
-        		R({authentication:{user:user.id}},function(err, auths){
-        			if(err){return cb(err, null);}		
 
-        			user.authentications = [];
-        			user.authentications = auths;
-            		return cb(null, user);
-        		});
-    		});
+	if(Obj){
+		if(Obj.credentials){
+			R({service:Obj.authentication.service}, function(err, service){
+				if(err){return cb(err, null);}	
+				
+				Obj.authentication.service = service.id;
+				R({access:{type: Obj.authentication.access.type, level:Obj.authentication.access.level}}, function(err, access){
+					if(err){return cb(err, null);}	
+					
+					Obj.authentication.access = access.id;
+					C(Obj, function(err, user){
+					    if(err){return cb(err, null);}
+					    
+					    if(user){
+				    		// When new credentials are created
+							R({authentication:{user:user.id}},function(err, auths){
+								if(err){return cb(err, null);}		
+								
+								user.authentications = [];
+								user.authentications = auths;
+								return cb(null, user);
+							});    
+					    } else {
+				    		return cb('!Error in creating.', null);
+				    	}
+		    		});
+		  		});    			
+		  	});
+		} else if (Obj.authentication){			
+			C(Obj, function(err, user){
+			    if(err){return cb(err, null);}
+			    
+			    if(user){
+	    		// when new access is granted
+		    		R({credentials:{_id:user.id}},function(err, credentials){
+		    			if(err){return cb(err, null);}
+		    			
+		    			user.credentials = {};
+		    			user.credentials = credentials;
+		        		R({authentication:{user:user.id}},function(err, auths){
+		        			if(err){return cb(err, null);}		
+		
+		        			user.authentications = [];
+		        			user.authentications = auths;
+		            		return cb(null, user);
+			        	});
+		        	});
+			    } else {
+		    		return cb('!Error in creating.', null);
+		    	}
+	    	});
     	} else {
     		return cb('!Object missing value', null);
     	}
-    }
-  });
+	}
+		
 };
 
 module.exports.read = function(Obj, cb){
