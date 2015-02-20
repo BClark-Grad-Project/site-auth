@@ -41,24 +41,24 @@ module.exports.create = function(Obj, cb){
 
 	if(Obj){
 		if(Obj.credentials){
-			R({service:Obj.authentication.service}, function(err, service){
+			R({service:Obj.authorization.service}, function(err, service){
 				if(err){return cb(err, null);}	
 				
 				Obj.authentication.service = service.id;
-				R({access:{type: Obj.authentication.access.type, level:Obj.authentication.access.level}}, function(err, access){
+				R({access:{type: Obj.authorization.access.type, level:Obj.authorization.access.level}}, function(err, access){
 					if(err){return cb(err, null);}	
 					
-					Obj.authentication.access = access.id;
+					Obj.authorization.access = access.id;
 					C(Obj, function(err, user){
 					    if(err){return cb(err, null);}
 					    
 					    if(user){
 				    		// When new credentials are created
-							R({authentication:{user:user.id}},function(err, auths){
+							R({authorization:{user:user.id}},function(err, auths){
 								if(err){return cb(err, null);}		
 								
-								user.authentications = [];
-								user.authentications = auths;
+								user.authorization = [];
+								user.authorization = auths;
 								return cb(null, user);
 							});    
 					    } else {
@@ -67,7 +67,7 @@ module.exports.create = function(Obj, cb){
 		    		});
 		  		});    			
 		  	});
-		} else if (Obj.authentication){			
+		} else if (Obj.authorization){
 			C(Obj, function(err, user){
 			    if(err){return cb(err, null);}
 			    
@@ -78,11 +78,11 @@ module.exports.create = function(Obj, cb){
 		    			
 		    			user.credentials = {};
 		    			user.credentials = credentials;
-		        		R({authentication:{user:user.id}},function(err, auths){
+		        		R({authorization:{user:user.id}},function(err, auths){
 		        			if(err){return cb(err, null);}		
 		
-		        			user.authentications = [];
-		        			user.authentications = auths;
+		        			user.authorizations = [];
+		        			user.authorizations = auths;
 		            		return cb(null, user);
 			        	});
 		        	});
