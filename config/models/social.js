@@ -5,15 +5,15 @@ var SocialSchema = mongo.Schema({
 	user: {type: mongo.Schema.Types.ObjectId, ref: 'User'},
 	service: {type: mongo.Schema.Types.ObjectId, ref: 'Service'},
     facebook: {
-    	id:    {type: String, unique:true}
+    	id:    {type: String},
+    	token: {type: String, unique:true}
     },
     gplus:    {
-    	id:    {type: String, unique:true},
+    	id:    {type: String},
     	token: {type: String, unique:true}
     },
     linkedin: {
-    	id:    {type: String, unique:true},
-    	token: {type: String, unique:true}
+    	id:    {type: String}
     }
     
 });
