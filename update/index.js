@@ -7,6 +7,7 @@ module.exports.user = User;
 module.exports.authorization = Authorization;
 module.exports.service = Service;
 module.exports.access = Access;
+module.exports.social = Social;
 
 module.exports = function(Obj, cb){
 	if(Obj){
@@ -21,6 +22,8 @@ module.exports = function(Obj, cb){
 		} else if(Obj.service){
 			// TODO: No need to complete in this iteration. Focus on feature completion.(Do with mongo shell or script for now)
 		} else if(Obj.access){
+			// TODO: No need to complete in this iteration. Focus on feature completion.(Do with mongo shell or script for now)
+		} else if(Obj.social){
 			// TODO: No need to complete in this iteration. Focus on feature completion.(Do with mongo shell or script for now)
 		} else {
 			search = {_id:Obj.id};

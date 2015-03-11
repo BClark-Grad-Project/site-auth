@@ -3,6 +3,7 @@ var config        = require('./conf');
 var User          = require('./models/user');
 var Access        = require('./models/access');
 var Service       = require('./models/service');
+var Social        = require('./models/social');
 var Authorization = require('./models/authorization');
 
 var conn = {};
@@ -23,7 +24,6 @@ var dbConnection = function(){
 	return url;
 };
 
-
 module.exports.close = function(){
 	return mongo.disconnect();
 };
@@ -35,4 +35,5 @@ mongoMessage();
 module.exports.user 		 = conn.model('User', User);
 module.exports.access 		 = conn.model('Access', Access);
 module.exports.service 		 = conn.model('Service', Service);
+module.exports.social        = conn.model('Social', Social);
 module.exports.authorization = conn.model('Authorization', Authorization);

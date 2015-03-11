@@ -2,6 +2,7 @@ var User = require('./user');
 var Authorization = require('./authorization');
 var Service = require('./service');
 var Access = require('./access');
+var Social = require('./social');
 
 module.exports = function(Obj, cb){
 	if(Obj){
@@ -12,18 +13,22 @@ module.exports = function(Obj, cb){
 				return cb(null, auths);
 			});
 		} else if(Obj.service){
-			// TODO: No need to complete in this iteration. Focus on feature completion.(Use mongo shell for lookup)
 			Service(Obj.service, function(err, service){
 				if(err){return cb(err, null);}
 				
 				return cb(null, service);
 			});
 		} else if(Obj.access){
-			// TODO: No need to complete in this iteration. Focus on feature completion.(Use mongo shell for lookup)
 			Access(Obj.access, function(err, access){
 				if(err){return cb(err, null);}
 				
 				return cb(null, access);
+			});			
+		} else if(Obj.social){
+			Social(Obj.social, function(err, social){
+				if(err){return cb(err, null);}
+				
+				return cb(null, social);
 			});			
 		} else {
 			// If here it should be in proper format but for safety I extract. 
@@ -47,4 +52,5 @@ module.exports = function(Obj, cb){
 module.exports.user = User;
 module.exports.authorization = Authorization;
 module.exports.service = Service;
+module.exports.social = Social;
 module.exports.access = Access;

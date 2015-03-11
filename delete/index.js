@@ -2,10 +2,12 @@ var User = require('./user');
 var Authorization = require('./authorization');
 var Service = require('./service');
 var Access = require('./access');
+var Social = require('./social');
 
 module.exports.user = User;
 module.exports.authorization = Authorization;
 module.exports.service = Service;
+module.exports.social = Social;
 module.exports.access = Access;
 
 module.exports = function(Obj, cb){
@@ -17,6 +19,8 @@ module.exports = function(Obj, cb){
 		} else if(Obj.service){
 			// TODO: No need to complete in this iteration. Focus on feature completion.(Do with mongo shell or script for now)
 		} else if(Obj.access){
+			// TODO: No need to complete in this iteration. Focus on feature completion.(Do with mongo shell or script for now)
+		} else if(Obj.social){
 			// TODO: No need to complete in this iteration. Focus on feature completion.(Do with mongo shell or script for now)
 		}
 	}  else {

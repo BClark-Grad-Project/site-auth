@@ -38,7 +38,6 @@ module.exports.grantOwner = function(req, res, next){
 };
 
 module.exports.create = function(Obj, cb){
-
 	if(Obj){
 		if(Obj.credentials){
 			R({service:{code:Obj.authorization.service}}, function(err, service){
@@ -68,11 +67,14 @@ module.exports.create = function(Obj, cb){
 		  		});    			
 		  	});
 		} else if (Obj.authorization){
+			Obj.social.service = Obj.authorization.service;
+			Obj.social.user    = Obj.authorization.user;
+			
 			C(Obj, function(err, user){
 			    if(err){return cb(err, null);}
 			    
-			    if(user){
-	    		// when new access is granted
+			    if(user){			    	
+			    	// when new access is granted
 		    		R({credentials:{_id:user.id}},function(err, credentials){
 		    			if(err){return cb(err, null);}
 		    			
@@ -88,8 +90,8 @@ module.exports.create = function(Obj, cb){
 		        	});
 			    } else {
 		    		return cb('!Error in creating.', null);
-		    	}
-	    	});
+		    	}	
+			});
     	} else {
     		return cb('!Object missing value', null);
     	}

@@ -8,6 +8,7 @@
   "private": true,
   "dependencies": {
     "mongoose": "~3.8.17",
-    "bcrypt": "~0.8.0"
+    "bcrypt": "~0.8.0",
+    "node-uuid": "~1.4.1"
   }
 }
