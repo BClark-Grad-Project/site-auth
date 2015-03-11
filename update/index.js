@@ -1,6 +1,7 @@
 var User = require('./user');
 var Authorization = require('./authorization');
 var Service = require('./service');
+var Social = require('./social');
 var Access = require('./access');
 
 module.exports.user = User;
