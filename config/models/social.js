@@ -28,4 +28,10 @@ SocialSchema.methods.getData = function(){
 	};
 };
 
+SocialSchema.methods.getUserId = function(){
+	return {
+	  id:       this.user
+	};
+};
+
 module.exports = SocialSchema;

@@ -25,7 +25,7 @@ module.exports = function(Obj, cb){
 				return cb(null, access);
 			});			
 		} else if(Obj.social){
-			Social(Obj.social, function(err, social){
+			Social.get(Obj.social, function(err, social){
 				if(err){return cb(err, null);}
 				
 				return cb(null, social);
@@ -46,6 +46,22 @@ module.exports = function(Obj, cb){
 		} 
 	} else {
 		return cb('!No Object', null);
+	}
+};
+
+module.exports.verify = function(Obj, cb){
+	if(Obj.social){
+		Social.verify(Obj.social, function(err, user){
+			if(err){return cb(err, null);}
+			
+			return cb(null, user);
+		});
+	} else {
+		User.verify(Obj, function(err, user){
+			if(err){return cb(err, null);}
+			
+			return cb(null, user);
+		});
 	}
 };
 

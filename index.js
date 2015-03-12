@@ -108,7 +108,7 @@ module.exports.read = function(Obj, cb){
 };
 
 module.exports.verify = function(credential, cb){
-  R.user.verify(credential, function(err, data){
+  R.verify(credential, function(err, data){
     if(err){return cb(err, null);}
     
     R({id:data.id},function(err, user){
