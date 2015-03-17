@@ -129,11 +129,27 @@ module.exports.create = function(Obj, cb){
 						
 						delete Obj.email;
 						Obj.id = credentials.id;
-						createAuthorization(Obj, function(err, user){
+						Obj.social.user = credentials.id;
+						R({social:{user:Obj.id, service:Obj.social.service}}, function(err, social){
 							if(err){return cb(err, Obj);}
-							
-							return cb(null, user);
-						});		
+							if(social){
+								U(Obj, function(err, social){
+									if(err){return cb(err, Obj);}
+									
+									R({id:Obj.id}, function(err, user){
+										if(err){return cb(err, Obj);}
+										
+										return cb(null, user);
+									});
+								});
+							} else {
+								createAuthorization(Obj, function(err, user){
+									if(err){return cb(err, Obj);}
+									
+									return cb(null, user);
+								});	
+							}
+						});	
 					});
 				} else {
 					createAuthorization(Obj, function(err, user){

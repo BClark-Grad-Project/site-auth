@@ -4,19 +4,13 @@ var Service = require('./service');
 var Social = require('./social');
 var Access = require('./access');
 
-module.exports.user = User;
-module.exports.authorization = Authorization;
-module.exports.service = Service;
-module.exports.access = Access;
-module.exports.social = Social;
-
 module.exports = function(Obj, cb){
 	if(Obj){
 		var search = {};
 		if(Obj.authorization){
 			search = {user:Obj.id, service:Obj.authorization.service};
 			Authentication(search, Obj.authentication, function(err, user){
-				if(err){return cb(err, null);}
+				if(err){return cb(err, Obj);}
 				
 				return cb(null, user);
 			});
@@ -25,16 +19,39 @@ module.exports = function(Obj, cb){
 		} else if(Obj.access){
 			// TODO: No need to complete in this iteration. Focus on feature completion.(Do with mongo shell or script for now)
 		} else if(Obj.social){
-			// TODO: No need to complete in this iteration. Focus on feature completion.(Do with mongo shell or script for now)
+			var search = {user:Obj.id, service:Obj.social.service};
+			var updateData = {};
+
+			if(Obj.social.facebook.id){
+				updateData.facebook = Obj.social.facebook;
+			}
+			if(Obj.social.linkedin.id){
+				updateData.linkedin = Obj.social.linkedin;
+			}
+			if(Obj.social.gplus.id){
+				updateData.gplus = Obj.social.gplus;
+			}
+			
+			Social(search, updateData, function(err, social){
+				if(err){return cb(err, Obj);}
+				
+				return cb(null, social);
+			});
 		} else {
 			search = {_id:Obj.id};
 			User(search, Obj.credentials, function(err, user){
-				if(err){return cb(err, null);}
+				if(err){return cb(err, Obj);}
 				
 				return cb(null, user);
 			});
 		} 
 	}  else {
-		return cb('!No Object', null);
+		return cb('!No Object', Obj);
 	}
 };
+
+module.exports.user = User;
+module.exports.authorization = Authorization;
+module.exports.service = Service;
+module.exports.access = Access;
+module.exports.social = Social;
