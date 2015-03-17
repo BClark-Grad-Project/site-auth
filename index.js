@@ -9,7 +9,7 @@ var R = require('./read');
 var U = require('./update');
 var D = require('./delete');
 
-var createAuthorization = function(Obj){
+var createAuthorization = function(Obj, cb){
 	C(Obj, function(err, user){
 	    if(err){return cb(err, null);}
 	    

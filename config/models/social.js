@@ -6,11 +6,11 @@ var SocialSchema = mongo.Schema({
 	service: {type: mongo.Schema.Types.ObjectId, ref: 'Service'},
     facebook: {
     	id:    {type: String},
-    	token: {type: String, unique:true}
+    	token: {type: String}
     },
     gplus:    {
     	id:    {type: String},
-    	token: {type: String, unique:true}
+    	token: {type: String}
     },
     linkedin: {
     	id:    {type: String}
