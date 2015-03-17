@@ -21,12 +21,14 @@ module.exports.verify = function(Obj, cb){
 	} else if(Obj.gplus){
 		search = {'gplus.id': Obj.gplus.id};
 	}
-
+	
+	console.log(search);
 	Social
 		.findOne(search)
 		.exec(function(err, data){
 			if(err){return cb(err, null);}
 			if(!data){return cb('!No Detail', null);}
+			console.log(data);
 
 			return cb(null, data.getUserId());
 		});	

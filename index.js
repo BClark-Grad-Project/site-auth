@@ -9,6 +9,31 @@ var R = require('./read');
 var U = require('./update');
 var D = require('./delete');
 
+var createAuthorization = function(Obj){
+	C(Obj, function(err, user){
+	    if(err){return cb(err, null);}
+	    
+	    if(user){			    	
+	    	// when new access is granted
+    		R({credentials:{_id:user.id}},function(err, credentials){
+    			if(err){return cb(err, null);}
+    			
+    			user.credentials = {};
+    			user.credentials = credentials;
+        		R({authorization:{user:user.id}},function(err, auths){
+        			if(err){return cb(err, null);}		
+
+        			user.authorizations = [];
+        			user.authorizations = auths;
+            		return cb(null, user);
+	        	});
+        	});
+	    } else {
+    		return cb('!Error in creating.', null);
+    	}	
+	});
+};
+
 var grant = function(type, req, res, next){
   switch(type){
 	  case 0: 
@@ -66,31 +91,56 @@ module.exports.create = function(Obj, cb){
 		    		});
 		  		});    			
 		  	});
-		} else if (Obj.authorization){
-			Obj.social.service = Obj.authorization.service;
-			Obj.social.user    = Obj.authorization.user;
-			
-			C(Obj, function(err, user){
-			    if(err){return cb(err, null);}
-			    
-			    if(user){			    	
-			    	// when new access is granted
-		    		R({credentials:{_id:user.id}},function(err, credentials){
-		    			if(err){return cb(err, null);}
-		    			
-		    			user.credentials = {};
-		    			user.credentials = credentials;
-		        		R({authorization:{user:user.id}},function(err, auths){
-		        			if(err){return cb(err, null);}		
-		
-		        			user.authorizations = [];
-		        			user.authorizations = auths;
-		            		return cb(null, user);
-			        	});
-		        	});
-			    } else {
-		    		return cb('!Error in creating.', null);
-		    	}	
+		} else if (Obj.authorization){ 
+			R({service:{code:Obj.authorization.service}}, function(err, service){
+				if(err){return cb(err, null);}	
+				
+				Obj.authorization.service = service.id;	
+				if(Obj.social){
+					Obj.social.service = service.id;
+				}
+				if(!Obj.id){
+					R({credentials:{email:Obj.email}},function(err, credentials){
+						if(err){return cb(err, Obj);}
+						
+						Obj.id = credentials.id;
+						createAUthorization(Obj, function(err, user){
+							if(err){return cb(err, Obj);}
+							
+							return cb(null, user);
+						});		
+					});
+				} else {
+					createAUthorization(Obj, function(err, user){
+						if(err){return cb(err, Obj);}
+						
+						return cb(null, user);
+					});				
+				}
+			});
+    	} else if (Obj.social){ 
+			R({service:{code:Obj.social.service}}, function(err, service){
+				if(err){return cb(err, null);}	
+				
+				Obj.social.service = service.id;
+				if(!Obj.id){
+					R({credentials:{email:Obj.email}},function(err, credentials){
+						if(err){return cb(err, Obj);}
+						
+						Obj.id = credentials.id;
+						createAUthorization(Obj, function(err, user){
+							if(err){return cb(err, Obj);}
+							
+							return cb(null, user);
+						});		
+					});
+				} else {
+					createAUthorization(Obj, function(err, user){
+						if(err){return cb(err, Obj);}
+						
+						return cb(null, user);
+					});				
+				}
 			});
     	} else {
     		return cb('!Object missing value', null);
