@@ -102,16 +102,16 @@ module.exports.create = function(Obj, cb){
 				if(!Obj.id){
 					R({credentials:{email:Obj.email}},function(err, credentials){
 						if(err){return cb(err, Obj);}
-						
+						 
 						Obj.id = credentials.id;
-						createAUthorization(Obj, function(err, user){
+						createAuthorization(Obj, function(err, user){
 							if(err){return cb(err, Obj);}
 							
 							return cb(null, user);
 						});		
 					});
 				} else {
-					createAUthorization(Obj, function(err, user){
+					createAuthorization(Obj, function(err, user){
 						if(err){return cb(err, Obj);}
 						
 						return cb(null, user);
@@ -128,14 +128,14 @@ module.exports.create = function(Obj, cb){
 						if(err){return cb(err, Obj);}
 						
 						Obj.id = credentials.id;
-						createAUthorization(Obj, function(err, user){
+						createAuthorization(Obj, function(err, user){
 							if(err){return cb(err, Obj);}
 							
 							return cb(null, user);
 						});		
 					});
 				} else {
-					createAUthorization(Obj, function(err, user){
+					createAuthorization(Obj, function(err, user){
 						if(err){return cb(err, Obj);}
 						
 						return cb(null, user);

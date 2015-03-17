@@ -21,6 +21,7 @@ var SocialSchema = mongo.Schema({
 SocialSchema.methods.getData = function(){
 	return {
 	  id:       this._id,
+	  user:     this.user,
 	  service:  this.service,
 	  facebook: this.facebook,
 	  gplus:    this.gplus,

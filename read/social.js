@@ -14,11 +14,11 @@ module.exports.get = function(Obj, cb){
 module.exports.verify = function(Obj, cb){ 
 	var search = {};
 
-	if(Obj.facebook){
+	if(Obj.facebook.id){
 		search = {'facebook.id': Obj.facebook.id};
-	} else if(Obj.linkedin){
+	} else if(Obj.linkedin.id){
 		search = {'linkedin.id': Obj.linkedin.id};
-	} else if(Obj.gplus){
+	} else if(Obj.gplus.id){
 		search = {'gplus.id': Obj.gplus.id};
 	}
 	
