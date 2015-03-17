@@ -22,7 +22,6 @@ module.exports.verify = function(Obj, cb){
 		search = {'gplus.id': Obj.gplus.id};
 	}
 	
-	console.log(search);
 	Social
 		.findOne(search)
 		.exec(function(err, data){

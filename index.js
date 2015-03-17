@@ -15,7 +15,7 @@ var createAuthorization = function(Obj, cb){
 	    
 	    if(user){			    	
 	    	// when new access is granted
-    		R({credentials:{_id:user.id}},function(err, credentials){
+    		R({id:user.id},function(err, credentials){
     			if(err){return cb(err, Obj);}
     			
     			user.credentials = {};
@@ -100,7 +100,7 @@ module.exports.create = function(Obj, cb){
 					Obj.social.service = service.id;
 				}
 				if(!Obj.id){
-					R({credentials:{email:Obj.email}},function(err, credentials){
+					R.user.get({email:Obj.email},function(err, credentials){
 						if(err){return cb(err, Obj);}
 						 
 						Obj.id = credentials.id;
@@ -124,7 +124,7 @@ module.exports.create = function(Obj, cb){
 				
 				Obj.social.service = service.id;
 				if(!Obj.id){
-					R({credentials:{email:Obj.email}},function(err, credentials){
+					R.user.get({email:Obj.email},function(err, credentials){
 						if(err){return cb(err, Obj);}
 						
 						delete Obj.email;

@@ -29,9 +29,9 @@ module.exports.get = function(search, cb){
 	User
 		.findOne(search)
 		.exec(function(err, user){
-			if(err){return cb(err, null);}
+			if(err){return cb(err, search);}
 			if(!user){
-				return cb('!Not Found',null);
+				return cb('!Not Found',search);
 			} else {
 				return cb(null, user.getData());
 			}
