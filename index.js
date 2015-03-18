@@ -81,8 +81,8 @@ module.exports.create = function(Obj, cb){
 							R({authorization:{user:user.id}},function(err, auths){
 								if(err){return cb(err, Obj);}		
 								
-								user.authorization = [];
-								user.authorization = auths;
+								user.authorizations = [];
+								user.authorizations = auths;
 								return cb(null, user);
 							});    
 					    } else {
