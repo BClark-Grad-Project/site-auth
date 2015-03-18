@@ -31,7 +31,6 @@ module.exports = function(Obj, cb){
 				return cb(null, social);
 			});			
 		} else {
-			// If here it should be in proper format but for safety I extract. 
 			User.get({_id: Obj.id},function(err, user){
 				if(err){return cb(err, null);}
 				
