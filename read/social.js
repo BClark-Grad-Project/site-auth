@@ -5,6 +5,7 @@ module.exports.get = function(Obj, cb){
 		.findOne(Obj)
 		.exec(function(err, data){
 			if(err){return cb(err, null);}
+			if(!data){return cb(null, {});}
 
 			return cb(null, data.getData());
 		});	
