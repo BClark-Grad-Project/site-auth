@@ -80,7 +80,7 @@ module.exports.create = function(Obj, cb){
 
 					    if(user){
 				    		// When new credentials are created]
-					    	if(err.type != 'social_check'){
+					    	if(err.type == 'social_check'){
 								var updateData = {};
 								updateData = U.social.getSearchFields(Obj);
 								updateData.service = service.id;
@@ -88,12 +88,23 @@ module.exports.create = function(Obj, cb){
 									if(err){return cb(err, Obj);}
 									
 									if(!socialService){
+										
 										R({authorization:{user:user.id}},function(err, auths){
-											if(err){return cb(err, Obj);}		
+											if(err){return cb(err, Obj);}														
+											var setSocial = {social:{}};
 											
 											user.authorizations = [];
 											user.authorizations = auths;
-											return cb(null, user);
+											setSocial.social.user = user.id;
+											setSocial.social.service = Obj.authorization.service;
+											
+											Social(setSocial, function(err, social){
+												if(err){return cb(err, null);}
+					
+												user.social = social;	
+												
+												return cb(null, user);					
+											});
 										});    
 									} else {
 										// TODO NEED TO DO A DELETE OF PREVIOUS FIELDS OR A PRE CHECK.
@@ -103,7 +114,6 @@ module.exports.create = function(Obj, cb){
 					    	} else {
 					    		R({authorization:{user:user.id}},function(err, auths){
 									if(err){return cb(err, Obj);}		
-									
 									user.authorizations = [];
 									user.authorizations = auths;
 									return cb(null, user);
