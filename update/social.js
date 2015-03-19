@@ -27,13 +27,13 @@ module.exports.getSearchFields = function(Obj){
 	var updateData = {};
 
 	if(Obj.social.facebook.id){
-		updateData.facebook.id = Obj.social.facebook.id;
+		updateData.facebook = {id: Obj.social.facebook.id};
 	}
 	if(Obj.social.linkedin.id){
-		updateData.linkedin.id = Obj.social.linkedin.id;
+		updateData.linkedin = {id: Obj.social.linkedin.id};
 	}
 	if(Obj.social.gplus.id){
-		updateData.gplus.id = Obj.social.gplus.id;
+		updateData.gplus = {id: Obj.social.gplus.id};
 	}
 	
 	return updateData;
