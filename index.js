@@ -151,7 +151,7 @@ module.exports.create = function(Obj, cb){
 											});
 										});
 									} else {
-										cb({type:'social_taken'})
+										cb({type:'social_taken'}, null);
 									}
 								});
 							} else {
