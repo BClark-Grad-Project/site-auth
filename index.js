@@ -132,15 +132,27 @@ module.exports.create = function(Obj, cb){
 						Obj.social.user = credentials.id;
 						R({social:{user:Obj.id, service:Obj.social.service}}, function(err, social){
 							if(err){return cb(err, Obj);}
+							
+							var updateData = U.social.getUpdateFields(Obj);
+							updateData.service = service.id;
+							
 							if(social){
-								U(Obj, function(err, social){
+								R({social:updateData}, function(err, socialService){
 									if(err){return cb(err, Obj);}
 									
-									R({id:Obj.id}, function(err, user){
-										if(err){return cb(err, Obj);}
-										
-										return cb(null, user);
-									});
+									if(socialService){
+										U(Obj, function(err, social){
+											if(err){return cb(err, Obj);}
+											
+											R({id:Obj.id}, function(err, user){
+												if(err){return cb(err, Obj);}
+												
+												return cb(null, user);
+											});
+										});
+									} else {
+										cb({type:'social_taken'})
+									}
 								});
 							} else {
 								createAuthorization(Obj, function(err, user){

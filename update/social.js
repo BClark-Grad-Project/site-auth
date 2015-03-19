@@ -6,3 +6,19 @@ module.exports = function(search, updateData, cb){
 		return cb(null, data.getData());
 	});
 };
+
+module.exports.getUpdateFields = function(Obj){
+	var updateData = {};
+
+	if(Obj.social.facebook.id){
+		updateData.facebook = Obj.social.facebook;
+	}
+	if(Obj.social.linkedin.id){
+		updateData.linkedin = Obj.social.linkedin;
+	}
+	if(Obj.social.gplus.id){
+		updateData.gplus = Obj.social.gplus;
+	}
+	
+	return updateData;
+};

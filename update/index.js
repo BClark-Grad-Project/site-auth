@@ -20,17 +20,8 @@ module.exports = function(Obj, cb){
 			// TODO: No need to complete in this iteration. Focus on feature completion.(Do with mongo shell or script for now)
 		} else if(Obj.social){
 			var search = {user:Obj.id, service:Obj.social.service};
-			var updateData = {};
-
-			if(Obj.social.facebook.id){
-				updateData.facebook = Obj.social.facebook;
-			}
-			if(Obj.social.linkedin.id){
-				updateData.linkedin = Obj.social.linkedin;
-			}
-			if(Obj.social.gplus.id){
-				updateData.gplus = Obj.social.gplus;
-			}
+			
+			var updateData = Social.getUpdateFields(Obj);
 			
 			Social(search, updateData, function(err, social){
 				if(err){return cb(err, Obj);}
