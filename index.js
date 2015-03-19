@@ -74,17 +74,41 @@ module.exports.create = function(Obj, cb){
 					
 					Obj.authorization.access = access.id;
 					C(Obj, function(err, user){
-					    if(err){return cb(err, Obj);}
+					    if(err){
+					    	if(err.type != 'social_check'){return cb(err, Obj);}
+					    }
 
 					    if(user){
-				    		// When new credentials are created
-							R({authorization:{user:user.id}},function(err, auths){
-								if(err){return cb(err, Obj);}		
-								
-								user.authorizations = [];
-								user.authorizations = auths;
-								return cb(null, user);
-							});    
+				    		// When new credentials are created]
+					    	if(err.type != 'social_check'){
+								var updateData = {};
+								updateData = U.social.getSearchFields(Obj);
+								updateData.service = service.id;
+								R({social:updateData}, function(err, socialService){
+									if(err){return cb(err, Obj);}
+									
+									if(!socialService){
+										R({authorization:{user:user.id}},function(err, auths){
+											if(err){return cb(err, Obj);}		
+											
+											user.authorizations = [];
+											user.authorizations = auths;
+											return cb(null, user);
+										});    
+									} else {
+										// TODO NEED TO DO A DELETE OF PREVIOUS FIELDS OR A PRE CHECK.
+										cb({type:'social_taken'}, null);
+									}
+								});
+					    	} else {
+					    		R({authorization:{user:user.id}},function(err, auths){
+									if(err){return cb(err, Obj);}		
+									
+									user.authorizations = [];
+									user.authorizations = auths;
+									return cb(null, user);
+								});    
+					    	}
 					    } else {
 				    		return cb('!Error in creating.', Obj);
 				    	}

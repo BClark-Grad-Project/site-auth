@@ -24,14 +24,15 @@ module.exports = function(Obj, cb){
 					if(Obj.credentials.password){
 						return cb(null, user);						
 					} else {
-						Obj.social.user = user.id;
-						Obj.social.service = Obj.authorization.service;
-						Social(Obj.social, function(err, social){
-							if(err){return cb(err, null);}
-
-							user.social = social;							
-							return cb(null, user);					
-						});
+						return cb({type:'social_check'}, user);
+//						Obj.social.user = user.id;
+//						Obj.social.service = Obj.authorization.service;
+//						Social(Obj.social, function(err, social){
+//							if(err){return cb(err, null);}
+//
+//							user.social = social;							
+//							return cb(null, user);					
+//						});
 					}
 				});
 			});
