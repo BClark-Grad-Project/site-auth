@@ -84,7 +84,7 @@ module.exports.create = function(Obj, cb){
 								user.authorizations = [];
 								user.authorizations = auths;
 								
-								if(err.type == 'social_check'){
+								if(Obj.social){
 									var setSocial = {social:{}};
 									setSocial.id = user.id;
 									Obj.social.service = service.id;
