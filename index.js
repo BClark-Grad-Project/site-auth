@@ -74,51 +74,31 @@ module.exports.create = function(Obj, cb){
 					
 					Obj.authorization.access = access.id;
 					C(Obj, function(err, user){
-					    if(err){
-					    	if(err.type != 'social_check'){return cb(err, Obj);}
-					    }
+					    if(err.type != 'social_check'){return cb(err, Obj);}
 
 					    if(user){
-				    		// When new credentials are created]
-					    	if(err.type == 'social_check'){
-								var updateData = {};
-								updateData = U.social.getSearchFields(Obj);
-								updateData.service = service.id;
-								R({social:updateData}, function(err, socialService){
-									if(err){return cb(err, Obj);}
-									
-									if(!socialService){
-										
-										R({authorization:{user:user.id}},function(err, auths){
-											if(err){return cb(err, Obj);}														
-											var setSocial = {social:{}};
-											
-											user.authorizations = [];
-											user.authorizations = auths;
-											setSocial.social.user = user.id;
-											setSocial.social.service = Obj.authorization.service;
-											
-											Social(setSocial, function(err, social){
-												if(err){return cb(err, null);}
-					
-												user.social = social;	
-												
-												return cb(null, user);					
-											});
-										});    
-									} else {
-										// TODO NEED TO DO A DELETE OF PREVIOUS FIELDS OR A PRE CHECK.
-										cb({type:'social_taken'}, null);
-									}
-								});
-					    	} else {
-					    		R({authorization:{user:user.id}},function(err, auths){
-									if(err){return cb(err, Obj);}		
-									user.authorizations = [];
-									user.authorizations = auths;
-									return cb(null, user);
-								});    
-					    	}
+				    		// When new credentials are created
+							R({authorization:{user:user.id}},function(err, auths){
+								if(err){return cb(err, Obj);}		
+								
+								user.authorizations = [];
+								user.authorizations = auths;
+								
+								if(err.type == 'social_check'){
+									var setSocial = {social:{}};
+									setSocial.id = user.id;
+									Obj.social.service = service.id;
+									C.social(setSearch, function(err, social){
+										if(err){return cb(err, null);}
+			
+										user.social = social;							
+										return cb(null, user);					
+									});
+								} else {
+									return cb(null, user);									
+								}
+								
+							});    
 					    } else {
 				    		return cb('!Error in creating.', Obj);
 				    	}
