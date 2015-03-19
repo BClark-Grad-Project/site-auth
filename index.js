@@ -75,10 +75,7 @@ module.exports.create = function(Obj, cb){
 					Obj.authorization.access = access.id;
 					C(Obj, function(err, user){
 					    if(err){
-					    	console.log('reg error', err);
-					    	if(!err.type){
 					    		return cb(err, Obj);
-					    	}
 					    }
 
 					    if(user){

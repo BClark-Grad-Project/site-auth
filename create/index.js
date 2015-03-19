@@ -15,19 +15,7 @@ module.exports = function(Obj, cb){
 				Authorization(Obj.authorization, function(err, auth){
 					if(err){return cb(err, null);}
 
-					if(Obj.credentials.password){
-						return cb(null, user);						
-					} else {
-						return cb({type:'social_check'}, user);
-//						Obj.social.user = user.id;
-//						Obj.social.service = Obj.authorization.service;
-//						Social(Obj.social, function(err, social){
-//							if(err){return cb(err, null);}
-//
-//							user.social = social;							
-//							return cb(null, user);					
-//						});
-					}
+						return cb(null, user);			
 				});
 			});
 		} else if(Obj.authorization){
