@@ -140,7 +140,7 @@ module.exports.create = function(Obj, cb){
 								R({social:updateData}, function(err, socialService){
 									if(err){return cb(err, Obj);}
 									
-									if(socialService){
+									if(!socialService){
 										U(Obj, function(err, social){
 											if(err){return cb(err, Obj);}
 											
