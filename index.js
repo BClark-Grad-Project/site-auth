@@ -74,7 +74,7 @@ module.exports.create = function(Obj, cb){
 					
 					Obj.authorization.access = access.id;
 					C(Obj, function(err, user){
-					    if(err.type != 'social_check'){return cb(err, Obj);}
+					    if(!err.type){return cb(err, Obj);}
 
 					    if(user){
 				    		// When new credentials are created
