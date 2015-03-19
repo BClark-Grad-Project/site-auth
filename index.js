@@ -74,7 +74,12 @@ module.exports.create = function(Obj, cb){
 					
 					Obj.authorization.access = access.id;
 					C(Obj, function(err, user){
-					    if(!err.type){return cb(err, Obj);}
+					    if(err){
+					    	console.log('reg error', err);
+					    	if(!err.type){
+					    		return cb(err, Obj);
+					    	}
+					    }
 
 					    if(user){
 				    		// When new credentials are created
@@ -87,8 +92,9 @@ module.exports.create = function(Obj, cb){
 								if(Obj.social){
 									var setSocial = {social:{}};
 									setSocial.id = user.id;
-									Obj.social.service = service.id;
-									C.social(setSearch, function(err, social){
+									setSocial.social = Obj.social;
+									setSocial.social.service = service.id;
+									C(setSocial, function(err, social){
 										if(err){return cb(err, null);}
 			
 										user.social = social;							

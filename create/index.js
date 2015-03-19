@@ -4,12 +4,6 @@ var Service = require('./service');
 var Access = require('./access');
 var Social = require('./social');
 
-module.exports.user = User;
-module.exports.authorization = Authorization;
-module.exports.service = Service;
-module.exports.access = Access;
-module.exports.social = Social;
-
 module.exports = function(Obj, cb){	
 	if(Obj){
 		if(Obj.credentials){
@@ -77,3 +71,10 @@ module.exports = function(Obj, cb){
 		return cb('!No Object', null);
 	}
 };
+
+
+module.exports.user = User;
+module.exports.authorization = Authorization;
+module.exports.service = Service;
+module.exports.access = Access;
+module.exports.social = Social;
