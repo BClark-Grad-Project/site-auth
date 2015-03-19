@@ -5,7 +5,6 @@ module.exports.get = function(Obj, cb){
 		.findOne(Obj)
 		.exec(function(err, data){
 			if(err){return cb(err, null);}
-			if(!data){return cb('!No Detail', null);}
 
 			return cb(null, data.getData());
 		});	
@@ -27,7 +26,6 @@ module.exports.verify = function(Obj, cb){
 		.exec(function(err, data){
 			if(err){return cb(err, null);}
 			if(!data){return cb('!No Detail', null);}
-			console.log(data);
 
 			return cb(null, data.getUserId());
 		});	
