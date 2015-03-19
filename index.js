@@ -133,10 +133,10 @@ module.exports.create = function(Obj, cb){
 						R({social:{user:Obj.id, service:Obj.social.service}}, function(err, social){
 							if(err){return cb(err, Obj);}
 							
-							var updateData = U.social.getUpdateFields(Obj);
-							updateData.social.service = service.id;
-							
 							if(social){
+								var updateData = {};
+								updateData = U.social.getSearchFields(Obj);
+								updateData.social.service = service.id;
 								R({social:updateData}, function(err, socialService){
 									if(err){return cb(err, Obj);}
 									
