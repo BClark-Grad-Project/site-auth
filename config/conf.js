@@ -1,5 +1,5 @@
 module.exports = {
-   host : "localhost",
-   port : 27017,
-   db   : "auth"
+    "mongo_host" : "localhost"
+   ,"mongo_port" : 27017
+   ,"db"   : "auth"
 };
