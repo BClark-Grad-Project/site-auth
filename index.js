@@ -154,6 +154,7 @@ module.exports.create = function(Obj, cb){
 								var updateData = {};
 								updateData.social = U.social.getSearchFields(Obj);
 								updateData.social = {service: service.id};
+								
 								R({social:updateData}, function(err, socialService){
 									if(err){return cb(err, Obj);}
 									
