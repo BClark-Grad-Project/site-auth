@@ -26,7 +26,7 @@ module.exports.verify = function(Obj, cb){
 		.findOne(search)
 		.exec(function(err, data){
 			if(err){return cb(err, null);}
-			if(!data){return cb('!No Detail', null);}
+			if(!data){return cb({type:'!No Detail'}, null);}
 
 			return cb(null, data.getUserId());
 		});	

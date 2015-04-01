@@ -58,19 +58,3 @@ Updating service and social authorizations requires the exclusion of the `creden
 On successful creation of an new user a object will be returned based on same request properties with database the associated `id: IdObject` properties. 
 
 Expected error handling for duplicate key fields of the `credential` property.   This will return either `{type:'email_taken'}` or `{type:'alias_taken'}`. Exceptional error responses will be provided by the Mongoose package.
-
-### READ
-
-
-
-#### VERIFY(Extended READ functionality)
-
-
-
-### UPDATE
-
-
-
-### DELETE(Uses the variable name REMOVE instead of DETELE due to namespace.)
-
-

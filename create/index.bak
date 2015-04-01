@@ -39,6 +39,8 @@ module.exports = function(Obj, cb){
 					return cb(null, user);	
 				}
 			});
+		} else if(Obj.service){
+			// TODO: No need to complete in this iteration. Focus on feature completion.(Do with mongo shell or script for now)
 		} else if(Obj.social){
 			var user = {};
 			
@@ -50,6 +52,8 @@ module.exports = function(Obj, cb){
 				user.social = social;							
 				return cb(null, user);					
 			});	
+		} else if(Obj.access){
+			// TODO: No need to complete in this iteration. Focus on feature completion.(Do with mongo shell or script for now)
 		}
 	}  else {
 		return cb('!No Object', null);

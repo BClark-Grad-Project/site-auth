@@ -1,6 +1,7 @@
 var User = require('./../config').user;
 var uuid = require('node-uuid');
 
+// This parse a response to see why it could not be created
 var getErrorField = function(err){
 	var field = err.message.split('.$')[1];
 	
@@ -13,7 +14,7 @@ var getErrorField = function(err){
 module.exports = function(user, cb){
 	var active = user.active ? user.active : true;
 	var hasher = new User();
-	var password = user.password ? user.password : uuid.v4();
+	var password = user.password ? user.password : uuid.v4();  // Social registration get an auto UUID pass.
 	password = hasher.generateHash(password);
 	
 	var userObj  = new User({
