@@ -7,7 +7,7 @@ module.exports = function(Obj, cb){
 		.populate('access', 'type level')
 		.exec(function(err, data){
 			if(err){return cb(err, null);}
-			if(!data){return cb({type:'!Nothing Found'}, null);}
+			if(!data[0]){return cb({type:'!Nothing Found'}, null);}
 
 			for(var i in data){
 				delete data[i]._id;

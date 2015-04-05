@@ -10,15 +10,15 @@ module.exports.verify = function(userObj, cb){
 					.findOne({alias: userObj.user})
 					.exec(function(err, user){
 						if(err) {return cb(err, null);}
-						if(!user) {return cb('Invalid User / Password', null);}
+						if(!user) {return cb({type:'Invalid User / Password'}, null);}
 						if(!user.validPassword(userObj.password)){
-							return cb('Invalid User / Password', null);
+							return cb({type:'Invalid User / Password'}, null);
 						}			
 						return cb(null, user.getData());
 					});
 			} else {
 				if(!user.validPassword(userObj.password)){
-					return cb('Invalid User / Password', null);
+					return cb({type:'Invalid User / Password'}, null);
 				}			
 				return cb(null, user.getData());
 			}
@@ -31,7 +31,7 @@ module.exports.get = function(search, cb){
 		.exec(function(err, user){
 			if(err){return cb(err, search);}
 			if(!user){
-				return cb('!Not Found',search);
+				return cb({type:'!Not Found'},search);
 			} else {
 				return cb(null, user.getData());
 			}

@@ -5,7 +5,7 @@ module.exports.get = function(Obj, cb){
 		.findOne(Obj)
 		.exec(function(err, data){
 			if(err){return cb(err, null);}
-			if(!data){return cb(null, {});}
+			if(!data){return cb({type:'!Notthing Found : Social'}, null);}
 
 			return cb(null, data.getData());
 		});	
@@ -26,7 +26,7 @@ module.exports.verify = function(Obj, cb){
 		.findOne(search)
 		.exec(function(err, data){
 			if(err){return cb(err, null);}
-			if(!data){return cb({type:'!No Detail'}, null);}
+			if(!data){return cb({type:'!Not found: Social Verify'}, null);}
 
 			return cb(null, data.getUserId());
 		});	
