@@ -35,7 +35,7 @@ module.exports = function(user, cb){
         		} else {
         			return cb(err, user);
         		}
-        	}
+        	} else return cb(err, user);
         } else {
         	return cb(null, userObj.getData());
         }
