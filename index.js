@@ -107,27 +107,27 @@ var addServiceWithSocialAccount = function(Obj, Obj2, user, cb){
 	var socialSearch = {};
 	//socialSearch = U.social.getSearchFields(Obj);
 	socialSearch.user = user.id;
-  socialSearch.service = Obj2.service.id;
+	socialSearch.service = Obj2.service.id;
 	    
 	//if social exist
 	R({social:socialSearch},function(err,social){
 		if(err){
 			if(err.type){
-			  console.log('Not registered to service with this social account, so create.');
+			  //console.log('Not registered to service with this social account, so create.');
 				emailExistWithSocialCreate(Obj, Obj2, user, function(err, user){
-					if(err.type) return cb({type:'forgot_account_login'}, Obj);
+					if(err) if(err.type) return cb({type:'forgot_account_login'}, Obj); else return cb(err, Obj);
 					else return cb(null, user);
 				});
 			} else return cb({type:'social_auth_request'}, Obj);
 		} else {		
-		  console.log('Registered to service already, update with social.');
-	    emailExistWithSocialUpdate(Obj, Obj2, user, function(err, user){
-	      if(err){
-		      if(err.type) return cb({type:'forgot_account_login'}, Obj);
-		      else return cb(err, null);
-	      }
-	      return cb(null, user);
-	    });
+		  //console.log('Registered to service already, update with social.');
+		    emailExistWithSocialUpdate(Obj, Obj2, user, function(err, user){
+		      if(err){
+			      if(err.type) return cb({type:'forgot_account_login'}, Obj);
+			      else return cb(err, null);
+		      }
+		      else return cb(null, user);
+		    });
 		}
 	});
 };
@@ -136,40 +136,40 @@ var addServiceWithAccount = function(Obj, Obj2, user, cb){
 	var socialSearch = {};
 	//socialSearch = U.social.getSearchFields(Obj);
 	socialSearch.user = user.id;
-  socialSearch.service = Obj2.service.id;
+	socialSearch.service = Obj2.service.id;
 	    
 	//if social exist
 	R({social:socialSearch},function(err,social){
 		if(err){
 			if(err.type){
-			  console.log('Not registered to service with this social account, so create.');
-	      var newAuth = {id:user.id};
-	      newAuth.authorization =	{
-	         user:user.id,
-		       service:Obj2.service.id, 
-		       access:Obj2.access.id};
-	      newAuth.social = Obj.social;
-	      newAuth.social.service = Obj2.service.id;
-	      newAuth.social.user = user.id;
+			  //console.log('Not registered to service with this social account, so create.');
+		      var newAuth = {id:user.id};
+		      newAuth.authorization =	{
+		         user:user.id,
+			       service:Obj2.service.id, 
+			       access:Obj2.access.id};
+		      newAuth.social = Obj.social;
+		      newAuth.social.service = Obj2.service.id;
+		      newAuth.social.user = user.id;
+		
+	  	    	//console.log('creating newAuth:', newAuth);
 	
-  	    console.log('creating newAuth:', newAuth);
-	
-	      C(newAuth, function(err, authorization){
-	        console.log('newAuth returned:', err, authorization);
-		      if(err) return cb(err, Obj);
-		      else return cb(null, user);
-	      });
+		      C(newAuth, function(err, authorization){
+		    	  //console.log('newAuth returned:', err, authorization);
+			      if(err) return cb(err, Obj);
+			      else return cb(null, user);
+		      });
 			} else return cb({type:'social_auth_request'}, Obj);
 		} else {		
-		  console.log('Registered to service already, update with social.');
-	    var newAuth = {id:user.id};
-	    newAuth.social = Obj.social;
-	    newAuth.social.service = Obj2.service.id;
-	    	
-	    U(newAuth, function(err, authorization){
-		    if(err) return cb(err, Obj);
-		    else return cb(null, user);
-	    });
+			//console.log('Registered to service already, update with social.');
+		    var newAuth = {id:user.id};
+		    newAuth.social = Obj.social;
+		    newAuth.social.service = Obj2.service.id;
+		    	
+		    U(newAuth, function(err, authorization){
+			    if(err) return cb(err, Obj);
+			    else return cb(null, user);
+		    });
 		}
 	});
 };
@@ -180,20 +180,20 @@ var emailExist = function(Obj, Obj2, cb){
 			if(err) return cb(err, Obj);
 			
 			R({authorization:{user:user.id, service:Obj2.service.id}},function(err,auth){
-				if(!err){
-				  console.log('If email is not registered to service.');
+				if(err){
+					//console.log('If email is not registered to service.', !(Object.keys(U.social.getSearchFields(Obj)) == 0));
 					//if yes: check if social exist and if not send 'forgot_account_login'
-					if(!(Object.keys(U.social.getSearchFields(Obj)) === 0)){
-					  console.log('And is registering with a social service.');
+					if(!(Object.keys(U.social.getSearchFields(Obj)) == 0)){
+						//console.log('And is registering with a social service.');
 						addServiceWithSocialAccount(Obj, Obj2, user, function(err, user){
 							if(err) return cb(err, Obj);
 							else return cb(null, user);
 						});
 					} else return cb({type:'service_auth_request'}, Obj);
 				} else {
-				  console.log('If email is registered to service');
-					if(!(Object.keys(U.social.getSearchFields(Obj)) === 0)){
-					  console.log('And is beging registered with a social service');
+					//console.log('If email is registered to service', !(Object.keys(U.social.getSearchFields(Obj)) == 0) );
+					if(!(Object.keys(U.social.getSearchFields(Obj)) == 0)){
+						//console.log('And is beging registered with a social service');
 						addServiceWithAccount(Obj, Obj2, user, function(err, user){
 							if(err) return cb(err, Obj);
 							else return cb(null, user);
@@ -205,12 +205,12 @@ var emailExist = function(Obj, Obj2, cb){
 };
 
 module.exports.create = function(Obj, cb){
-  console.log('Creating User');
+	//console.log('Creating User');
 	if(Obj){
 		if(Obj.credentials){
 			serviceAuthDetail(Obj, function(err, serviceAccess){
 				if(err) return cb(err, Obj);	
-				console.log('Gathered Service and access ID\'s', serviceAccess);
+				//console.log('Gathered Service and access ID\'s', serviceAccess);
 				//Create account for this service and user.
 				Obj.authorization.access = serviceAccess.access.id;
 				Obj.authorization.service = serviceAccess.service.id;
@@ -219,7 +219,7 @@ module.exports.create = function(Obj, cb){
 					if(err){
 					  if(err.type){
 					    if(err.type == 'email_taken'){
-                console.log('The email is already registerd');
+					    	//console.log('The email is already registerd');
 						    emailExist(Obj, serviceAccess, function(err, user){
 							    if(err) return cb(err, Obj);	
 							    R({id:user.id}, function(err, returnUser){
@@ -237,7 +237,7 @@ module.exports.create = function(Obj, cb){
 							user.authorizations = [];
 							user.authorizations = auths;
 							
-							if(!(Object.keys(U.social.getSearchFields(Obj)) === 0)){
+							if(!(Object.keys(U.social.getSearchFields(Obj)) == 0)){
 								var setSocial = {social:{}};
 								setSocial.id = user.id;
 								setSocial.social = Obj.social;
